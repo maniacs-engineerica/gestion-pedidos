@@ -1,0 +1,57 @@
+<template>
+  <div class="mt-4">
+    <div class="container">
+      <div class="justify-content-center row">
+        <div class="col-md-6 col-sm-10">
+          <div class="p-4 card">
+            <div class="card-body">
+              <form>
+                <h1>Ingresar</h1>
+                <p class="text-muted">Ingrese a su cuenta</p>
+                <input
+                  placeholder="Email"
+                  autocomplete="username"
+                  type="email"
+                  class="mb-3 form-control"
+                  required
+                />
+                <input
+                  placeholder="Contraseña"
+                  autocomplete="current-password"
+                  type="password"
+                  class="mb-4 form-control"
+                  required
+                />
+                <div class="row">
+                  <div class="col-6">
+                    <button class="px-4 btn btn-primary">Ingresar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+</style>
+
+// <script>
+// export default {
+//   name: "Home",
+//   components: {
+//     PageTitle
+//   }
+// };
+//
+</script>

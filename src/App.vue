@@ -3,7 +3,7 @@
     <Header />
     <main class="app-body">
       <div class="container-fluid">
-      <router-view />
+        <router-view />
       </div>
     </main>
   </div>
@@ -20,9 +20,8 @@ export default {
 </script>
 
 <style>
-
 body {
-  background-color: var(--light) !important;
+  background-color: #e4e5e6 !important;
 }
 
 #app {
@@ -37,5 +36,4 @@ body {
   margin-top: 55px;
   width: 100%;
 }
-
 </style>
