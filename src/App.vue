@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <main class="app-body">
+    <main class="app-body p-3">
       <div class="container-fluid">
         <router-view />
       </div>
@@ -36,4 +36,9 @@ body {
   margin-top: 55px;
   width: 100%;
 }
+
+.table-hover tr:hover > td {
+    cursor: pointer;
+}
+
 </style>

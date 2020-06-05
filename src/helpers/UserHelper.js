@@ -3,7 +3,7 @@ class UserHelper {
     this.loggedUser = {
       name: "Matias Cohen"
     };
-    this.loggedUser = null;
+    // this.loggedUser = null;
   }
 
   loginUser(user) {
