@@ -40,16 +40,20 @@
 </template>
 
 <script>
+import UserHelper from "@/helpers/UserHelper";
 import PageTitle from "@/components/PageTitle.vue";
 
 import purchases from "@/data/purchases.js";
 import moment from "moment";
 
 export default {
-  data() {
-    return {
-      purchases: purchases
-    };
+  computed: {
+    purchases: function() {
+      const user = UserHelper.getLoggedUser();
+      return user.isAdmin
+        ? purchases
+        : purchases.filter(p => p.client.id == UserHelper.getLoggedUser().id);
+    }
   },
   methods: {
     parseDate: function(date) {

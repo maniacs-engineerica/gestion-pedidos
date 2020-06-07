@@ -1,7 +1,10 @@
 class UserHelper {
   constructor() {
     this.loggedUser = {
-      name: "Matias Cohen"
+      name: "Matias Cohen",
+      id: 3,
+      isAdmin: false,
+      isClient: true
     };
     // this.loggedUser = null;
   }
@@ -12,14 +15,6 @@ class UserHelper {
 
   isLogged() {
     return this.loggedUser !== null;
-  }
-
-  isAdmin() {
-    return false;
-  }
-
-  isClient() {
-    return true;
   }
 
   getLoggedUser() {

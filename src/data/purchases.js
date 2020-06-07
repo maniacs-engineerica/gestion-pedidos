@@ -2,6 +2,7 @@ export default [
   {
     id: 1,
     client: {
+      id: 0,
       name: "Ivan Blanco"
     },
     date: "2020-01-10T20:00:00.000Z",
@@ -30,6 +31,7 @@ export default [
   {
     id: 2,
     client: {
+      id: 1,
       name: "Constanza Cirion"
     },
     date: "2020-02-15T13:00:00.000Z",
@@ -49,6 +51,7 @@ export default [
   {
     id: 3,
     client: {
+      id: 3,
       name: "Matias Cohen"
     },
     date: "2020-04-15T17:00:00.000Z",
