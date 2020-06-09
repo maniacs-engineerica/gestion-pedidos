@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
 import Products from "@/views/Products.vue";
+import Profile from "@/views/Profile.vue";
 import PurchasesList from "@/components/PurchasesList.vue";
 import PurchasesView from "@/components/PurchaseView.vue";
 import ProductView from "@/components/ProductView.vue";
@@ -39,6 +40,11 @@ const routes = [
     path: "/login",
     name: "Ingresar",
     component: Login
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile
   }
 ];
 

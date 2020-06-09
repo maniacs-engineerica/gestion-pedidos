@@ -1,16 +1,20 @@
+import users from "../data/users.js";
+
 class UserHelper {
   constructor() {
-    this.loggedUser = {
-      name: "Matias Cohen",
-      id: 3,
-      isAdmin: false,
-      isClient: true
-    };
-    // this.loggedUser = null;
+    // this.loggedUser = users[0];
+    this.loggedUser = null;
   }
 
-  loginUser(user) {
+  login(email, password, callback) {
+    const user = users.find(u => u.email === email && u.password === password);
+    const error = user == null ? "Usuario y/o contraseña inválida" : null;
+    callback(user, error);
     this.loggedUser = user;
+  }
+
+  logout(){
+    this.loggedUser = null;
   }
 
   isLogged() {

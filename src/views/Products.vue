@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-title message="Productos"/>
+    <page-title message="Tienda"/>
   </div>
 </template>
 

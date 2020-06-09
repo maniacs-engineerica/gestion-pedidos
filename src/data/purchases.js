@@ -51,7 +51,7 @@ export default [
   {
     id: 3,
     client: {
-      id: 3,
+      id: 2,
       name: "Matias Cohen"
     },
     date: "2020-04-15T17:00:00.000Z",

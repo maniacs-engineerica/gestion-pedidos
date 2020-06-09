@@ -5,7 +5,7 @@
         <div class="col-md-6 col-sm-10">
           <div class="p-4 card">
             <div class="card-body">
-              <form>
+              <form @submit="login">
                 <h1>Ingresar</h1>
                 <p class="text-muted">Ingrese a su cuenta</p>
                 <input
@@ -13,18 +13,21 @@
                   autocomplete="username"
                   type="email"
                   class="mb-3 form-control"
+                  v-model="email"
                   required
                 />
                 <input
                   placeholder="Contraseña"
                   autocomplete="current-password"
+                  v-model="password"
                   type="password"
                   class="mb-4 form-control"
                   required
                 />
+                <div class="alert alert-danger mb-3" v-if="error">{{error}}</div>
                 <div class="row">
                   <div class="col-6">
-                    <button class="px-4 btn btn-primary">Ingresar</button>
+                    <input type="submit" class="px-4 btn btn-primary" value="Ingresar" />
                   </div>
                 </div>
               </form>
@@ -46,12 +49,28 @@
 }
 </style>
 
-// <script>
-// export default {
-//   name: "Home",
-//   components: {
-//     PageTitle
-//   }
-// };
-//
+<script>
+import UserHelper from "@/helpers/UserHelper";
+
+export default {
+  data() {
+    return {
+      error: null,
+      email: null,
+      password: null
+    };
+  },
+  methods: {
+    login: function(e) {
+      // eslint-disable-next-line no-unused-vars
+      UserHelper.login(this.email, this.password, (user, error) => {
+        this.error = error;
+        if (!error){
+          this.$router.replace("/");
+        }
+      });
+      e.preventDefault();
+    }
+  }
+};
 </script>
