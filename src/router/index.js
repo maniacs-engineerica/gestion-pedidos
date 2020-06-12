@@ -3,10 +3,15 @@ import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
 import Products from "@/views/Products.vue";
 import Profile from "@/views/Profile.vue";
+import Purchases from "@/views/Purchases.vue";
+import Login from "@/views/Login.vue";
+import Administration from "@/views/Administration.vue";
+
 import PurchasesList from "@/components/PurchasesList.vue";
 import PurchasesView from "@/components/PurchaseView.vue";
 import ProductView from "@/components/ProductView.vue";
-import Login from "@/views/Login.vue";
+import Dashboard from "@/components/Dashboard.vue";
+
 
 Vue.use(VueRouter);
 
@@ -24,7 +29,11 @@ const routes = [
   {
     path: "/purchases",
     name: "Pedidos",
-    component: PurchasesList
+    component: Purchases,
+    children: [{
+      path: "",
+      component: PurchasesList
+    }]
   },
   {
     path: "/purchases/:id",
@@ -45,6 +54,16 @@ const routes = [
     path: "/profile",
     name: "Profile",
     component: Profile
+  },
+  {
+    path: "/admin",
+    name: "Dashboard",
+    component: Administration,
+    children: [{
+      path: "",
+      component: Dashboard
+    }
+    ]
   }
 ];
 

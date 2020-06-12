@@ -6,6 +6,9 @@
       <router-link class="nav-link" to="/purchases" v-if="userHelper.isLogged()"
         >Pedidos</router-link
       >
+      <router-link class="nav-link" to="/admin" v-if="userHelper.isLogged() && userHelper.getLoggedUser().isAdmin"
+        >Administrador</router-link
+      >
     </ul>
     <ul class="ml-auto nav">
       <router-link class="btn btn-sm btn-outline-primary" to="/login" v-if="!userHelper.isLogged()"

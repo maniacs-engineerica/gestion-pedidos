@@ -1,6 +1,5 @@
 <template>
   <div>
-    <page-title message="Pedidos" />
     <div class="card">
       <div class="card-body">
         <table class="table table-striped table-hover">
@@ -41,7 +40,6 @@
 
 <script>
 import UserHelper from "@/helpers/UserHelper";
-import PageTitle from "@/components/PageTitle.vue";
 
 import purchases from "@/data/purchases.js";
 import moment from "moment";
@@ -71,9 +69,6 @@ export default {
         0
       );
     }
-  },
-  components: {
-    PageTitle
   }
 };
 </script>

@@ -15,9 +15,16 @@ export default [
   },
   {
     name: "Constanza Cirion",
-    id: 0,
+    id: 1,
     email: "cotycirion94@gmail.com",
     password: "constanza",
+    isAdmin: false
+  },
+  {
+    name: "Gaspar De Carlo",
+    id: 1,
+    email: "gaspar.decarlo@ort.edu.ar",
+    password: "gaspar",
     isAdmin: true
   }
 ]
