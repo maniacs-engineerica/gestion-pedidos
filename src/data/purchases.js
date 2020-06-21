@@ -13,6 +13,7 @@ export default [
         quantity: 1,
         product: {
           id: 0,
+          slug: 'chocotorta',
           title: "Torta de Chocolinas",
           price: 30
         }
@@ -22,6 +23,7 @@ export default [
         quantity: 2,
         product: {
           id: 1,
+          slug: 'pan-dulce',
           title: "Pan dulce",
           price: 15
         }
@@ -42,6 +44,7 @@ export default [
         quantity: 5,
         product: {
           id: 1,
+          slug: 'pan-dulce',
           title: "Pan dulce",
           price: 15
         }
@@ -62,6 +65,7 @@ export default [
         quantity: 10,
         product: {
           id: 0,
+          slug: 'chocotorta',
           title: "Torta de Chocolinas",
           price: 30
         }
@@ -82,6 +86,7 @@ export default [
         quantity: 1,
         product: {
           id: 2,
+          slug: 'volcan-chocolate',
           title: "Volcán de chocolate",
           price: 30
         }
@@ -91,6 +96,7 @@ export default [
         quantity: 2,
         product: {
           id: 3,
+          slug: 'churros-ddl',
           title: "Churros con dulce de leche",
           price: 15
         }
@@ -111,6 +117,7 @@ export default [
         quantity: 1,
         product: {
           id: 0,
+          slug: 'chocotorta',
           title: "Torta de Chocolinas",
           price: 30
         }
@@ -120,6 +127,7 @@ export default [
         quantity: 2,
         product: {
           id: 1,
+          slug: 'pan-dulce',
           title: "Pan dulce",
           price: 15
         }
@@ -140,6 +148,7 @@ export default [
         quantity: 1,
         product: {
           id: 0,
+          slug: 'chocotorta',
           title: "Torta de Chocolinas",
           price: 30
         }
@@ -149,6 +158,7 @@ export default [
         quantity: 2,
         product: {
           id: 1,
+          slug: 'pan-dulce',
           title: "Pan dulce",
           price: 15
         }

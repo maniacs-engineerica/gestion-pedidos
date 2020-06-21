@@ -20,7 +20,7 @@
                 <tr
                   v-for="(item, index) in purchase.items"
                   :key="item.id"
-                  @click="showProduct(item.product.id)"
+                  @click="showProduct(item.product.slug)"
                 >
                   <td>{{ index + 1 }}</td>
                   <td>{{ item.product.title }}</td>
@@ -35,9 +35,6 @@
             </table>
           </div>
         </div>
-      </div>
-      <div class="col-auto">
-        <router-view></router-view>
       </div>
     </div>
   </div>
@@ -67,8 +64,8 @@ export default {
       const date = moment(this.purchase.date);
       return date.format("DD/MM/YYYY") + " - " + date.format("hh:mm a");
     },
-    showProduct: function(id) {
-      this.$router.push(this.$router.currentRoute.path + "/product/" + id);
+    showProduct: function(slug) {
+      this.$router.push('/products/'+ slug);
     }
   },
   components: {

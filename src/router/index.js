@@ -8,6 +8,7 @@ import Login from "@/views/Login.vue";
 import Administration from "@/views/Administration.vue";
 
 import PurchasesList from "@/components/PurchasesList.vue";
+import ProductsList from "@/components/ProductsList.vue";
 import PurchasesView from "@/components/PurchaseView.vue";
 import ProductView from "@/components/ProductView.vue";
 import Dashboard from "@/components/Dashboard.vue";
@@ -24,7 +25,16 @@ const routes = [
   {
     path: "/products",
     name: "Productos",
-    component: Products
+    component: Products,
+    children: [{
+      path: "",
+      component: ProductsList
+    }]
+  },
+  {
+    path: "/products/:slug",
+    name: "Producto",
+    component: ProductView    
   },
   {
     path: "/purchases",
@@ -38,12 +48,7 @@ const routes = [
   {
     path: "/purchases/:id",
     name: "Pedido",
-    component: PurchasesView,
-    children: [
-      {
-        path: 'product/:productId', component: ProductView
-      }
-    ]
+    component: PurchasesView    
   },
   {
     path: "/login",

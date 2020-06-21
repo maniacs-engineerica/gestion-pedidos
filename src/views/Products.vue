@@ -1,6 +1,7 @@
 <template>
   <div>
     <page-title message="Tienda"/>
+    <router-view></router-view>
   </div>
 </template>
 
