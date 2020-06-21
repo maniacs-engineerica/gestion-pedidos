@@ -20,6 +20,9 @@
             <dl class="item-property">
               <dd><p>{{product.description}}</p></dd>
             </dl>
+            <span>
+              <star-rating :rating="product.rating" :read-only="true" :show-rating="false"></star-rating>
+            </span>
           <hr>
             <div class="row">
               <div class="col-sm-5">
@@ -61,7 +64,7 @@
 </template>
 
 <script>
-import RatingStar from "@/components/RatingStar.vue";
+import StarRating from 'vue-star-rating'
 import products from "@/data/products.js";
 
 export default {
@@ -69,6 +72,9 @@ export default {
       return {
         product: products.find(p => p.slug == this.$route.params.slug),
       };
+    },
+    components: {
+      StarRating
     }
 }
 </script>
