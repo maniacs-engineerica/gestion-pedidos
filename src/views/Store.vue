@@ -5,7 +5,7 @@
         <div>
             <input type="search" placeholder="Buscar" v-model="searchText">
             <button id="searchCakes" @click="searchAll">Buscar torta</button>
-        </div>
+        </div>        
         <div name="searchButttonsConainer">
             <div><button id="allCategories" @click="searchAllCategories"> Todas las categorias</button></div>
             <div><button id="cakeCategory" @click="searchCakes"> Tortas </button></div>
@@ -51,8 +51,8 @@
         </div>
 
         <div id="resultsContaianer">            
-            <ul id="results">
-               <li v-for="(product ,index) in searchResults" :key="index">                    
+            <ul id="results">              
+               <li v-for="(product ,index) in searchResults" :key="index" @click="showProduct(product.slug)">                    
                     <productCard
                         :nombre="product.name" 
                         :image="product.image" 
@@ -86,6 +86,7 @@ export default {
             maxPrice: '',
             productos: products,
             searchResults: [],
+            visible: 'disabled',
         }
          
         },
@@ -99,21 +100,29 @@ export default {
             }
             ,
             searchCakes () {
-                this.searchResults = this.productos.filter((producto) => producto.category.toLowerCase().includes("torta"))
+                this.searchResults = this.productos.filter((producto) => producto.category.toLowerCase().includes("cake"))
             },
             searchDessert () {
-                this.searchResults = this.productos.filter((producto) => producto.category.toLowerCase().includes("postre"))
+                this.searchResults = this.productos.filter((producto) => producto.category.toLowerCase().includes("dessert"))
             },
             searchCandies () {
-                this.searchResults = this.productos.filter((producto) => producto.category.toLowerCase().includes("masas"))
+                this.searchResults = this.productos.filter((producto) => producto.category.toLowerCase().includes("baked"))
             },
             searchProductByScore(){
                 this.searchResults = this.productos.filter((producto) => producto.raiting.includes(this.productScore))
-            }
+            },
+             showProduct: function(slug) {
+              this.$router.push('/products/'+ slug);
+             }
+    },
+    
 
-        },
-        
 };
+       
+
 
    
 </script>
+<style scoped>
+
+</style>

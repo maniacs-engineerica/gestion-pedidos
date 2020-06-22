@@ -1,6 +1,6 @@
 <template>
     <div>    
-        <div class="w3-card-12 w3-margin" style="width:35%">
+        <div>
             <img width="100" :src="image" :alt="nombre"/>
             <h2 >{{ nombre }}</h2>
         </div>
@@ -11,7 +11,7 @@
 <script>
 export default {
     name: "ProductCard",
-    props:['nombre','image','score'],    
+    props:['nombre','image','score'],
 }
     
 </script>
