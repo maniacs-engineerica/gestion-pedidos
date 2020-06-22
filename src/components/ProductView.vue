@@ -5,8 +5,8 @@
       <div class="row">
         <aside class="col-sm-5 border-right">
           <article class="gallery-wrap"> 
-              <!-- <div> <a href="#"><img :src="require(`@/assets/${product.image}`)" 
-                :alt="product.name" class="img-fluid"></a></div> -->
+              <div><img :src="product.image" 
+                :alt="product.name" class="img-fluid"></div>
           </article>
         </aside>
         <aside class="col-sm-7">

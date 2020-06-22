@@ -1,5 +1,5 @@
 <template>
-  <header class="app-header navbar">
+  <header class="app-header navbar sticky-top">
     <ul class="nav">
       <router-link class="nav-link" to="/">Home</router-link>
       <router-link class="nav-link" to="/store">Tienda</router-link>
