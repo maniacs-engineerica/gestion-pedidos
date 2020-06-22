@@ -2,7 +2,7 @@
   <header class="app-header navbar">
     <ul class="nav">
       <router-link class="nav-link" to="/">Home</router-link>
-      <router-link class="nav-link" to="/products">Tienda</router-link>
+      <router-link class="nav-link" to="/store">Tienda</router-link>
       <router-link class="nav-link" to="/purchases" v-if="userHelper.isLogged()"
         >Pedidos</router-link
       >

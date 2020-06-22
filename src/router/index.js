@@ -1,14 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
-import Products from "@/views/Products.vue";
+import Store from "@/views/Store.vue";
 import Profile from "@/views/Profile.vue";
 import Purchases from "@/views/Purchases.vue";
 import Login from "@/views/Login.vue";
 import Administration from "@/views/Administration.vue";
 
 import PurchasesList from "@/components/PurchasesList.vue";
-import ProductsList from "@/components/ProductsList.vue";
+//import ProductsList from "@/components/ProductsList.vue";
 import PurchasesView from "@/components/PurchaseView.vue";
 import ProductView from "@/components/ProductView.vue";
 import Dashboard from "@/components/Dashboard.vue";
@@ -23,13 +23,9 @@ const routes = [
     component: Home
   },
   {
-    path: "/products",
-    name: "Productos",
-    component: Products,
-    children: [{
-      path: "",
-      component: ProductsList
-    }]
+    path: "/store",
+    name: "Store",
+    component: Store
   },
   {
     path: "/products/:slug",
