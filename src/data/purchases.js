@@ -1,6 +1,6 @@
 export default [
   {
-    id: 1,
+    id: 0,
     client: {
       id: 0,
       name: "Ivan Blanco"
@@ -12,9 +12,9 @@ export default [
         id: 0,
         quantity: 1,
         product: {
-          id: 0,
+          id: 2,
           slug: 'chocotorta',
-          title: "Torta de Chocolinas",
+          name: "Torta de Chocolinas",
           price: 30
         }
       },
@@ -22,16 +22,16 @@ export default [
         id: 1,
         quantity: 2,
         product: {
-          id: 1,
+          id: 4,
           slug: 'pan-dulce',
-          title: "Pan dulce",
+          name: "Pan dulce",
           price: 15
         }
       }
     ]
   },
   {
-    id: 2,
+    id: 1,
     client: {
       id: 1,
       name: "Constanza Cirion"
@@ -43,10 +43,31 @@ export default [
         id: 1,
         quantity: 5,
         product: {
-          id: 1,
+          id: 4,
           slug: 'pan-dulce',
-          title: "Pan dulce",
+          name: "Pan dulce",
           price: 15
+        }
+      }
+    ]
+  },
+  {
+    id: 2,
+    date: "2020-01-10T15:43:00.000Z",
+    client: {
+      id: 2,
+      name: "Matias Cohen"
+    },
+    status: 0,
+    items: [
+      {
+        id: 0,
+        quantity: 10,
+        product: {
+          id: 2,
+          slug: 'chocotorta',
+          name: "Torta de Chocolinas",
+          price: 30
         }
       }
     ]
@@ -54,20 +75,30 @@ export default [
   {
     id: 3,
     client: {
-      id: 2,
-      name: "Matias Cohen"
+      id: 0,
+      name: "Ivan Blanco"
     },
-    date: "2020-04-15T17:00:00.000Z",
-    status: 2,
+    date: "2020-01-10T20:00:00.000Z",
+    status: 0,
     items: [
       {
         id: 0,
-        quantity: 10,
+        quantity: 1,
         product: {
-          id: 0,
-          slug: 'chocotorta',
-          title: "Torta de Chocolinas",
+          id: 10,
+          slug: 'volcan-chocolate',
+          name: "Volcán de chocolate",
           price: 30
+        }
+      },
+      {
+        id: 1,
+        quantity: 2,
+        product: {
+          id: 11,
+          slug: 'churros-ddl',
+          name: "Churros con dulce de leche",
+          price: 15
         }
       }
     ]
@@ -86,8 +117,8 @@ export default [
         quantity: 1,
         product: {
           id: 2,
-          slug: 'volcan-chocolate',
-          title: "Volcán de chocolate",
+          slug: 'chocotorta',
+          name: "Torta de Chocolinas",
           price: 30
         }
       },
@@ -95,9 +126,9 @@ export default [
         id: 1,
         quantity: 2,
         product: {
-          id: 3,
-          slug: 'churros-ddl',
-          title: "Churros con dulce de leche",
+          id: 4,
+          slug: 'pan-dulce',
+          name: "Pan dulce",
           price: 15
         }
       }
@@ -116,9 +147,9 @@ export default [
         id: 0,
         quantity: 1,
         product: {
-          id: 0,
+          id: 2,
           slug: 'chocotorta',
-          title: "Torta de Chocolinas",
+          name: "Torta de Chocolinas",
           price: 30
         }
       },
@@ -126,40 +157,9 @@ export default [
         id: 1,
         quantity: 2,
         product: {
-          id: 1,
+          id: 4,
           slug: 'pan-dulce',
-          title: "Pan dulce",
-          price: 15
-        }
-      }
-    ]
-  },
-  {
-    id: 6,
-    client: {
-      id: 0,
-      name: "Ivan Blanco"
-    },
-    date: "2020-01-10T20:00:00.000Z",
-    status: 0,
-    items: [
-      {
-        id: 0,
-        quantity: 1,
-        product: {
-          id: 0,
-          slug: 'chocotorta',
-          title: "Torta de Chocolinas",
-          price: 30
-        }
-      },
-      {
-        id: 1,
-        quantity: 2,
-        product: {
-          id: 1,
-          slug: 'pan-dulce',
-          title: "Pan dulce",
+          name: "Pan dulce",
           price: 15
         }
       }

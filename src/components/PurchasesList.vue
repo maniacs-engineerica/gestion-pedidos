@@ -26,9 +26,16 @@
               <td class="align-middle">{{ parseTime(purchase.date) }}</td>
               <td class="align-middle">${{ calcAmount(purchase.items) }}</td>
               <td class="align-middle">
-                <span v-if="purchase.status == 0" class="badge badge-danger">Pendiente</span>
+                <span v-if="purchase.status == 0" class="badge badge-success">Entregado</span>
                 <span v-else-if="purchase.status == 1" class="badge badge-warning">Listo</span>
-                <span v-else-if="purchase.status == 2" class="badge badge-success">Entregado</span>
+                <span
+                  v-else-if="purchase.status == 2"
+                  class="badge badge-warning"
+                >Preparando en pastelería</span>
+                <span
+                  v-else-if="purchase.status == 3"
+                  class="badge badge-primary"
+                >Carrito en proceso</span>
               </td>
             </tr>
           </tbody>
@@ -49,15 +56,21 @@ export default {
     purchases: function() {
       const user = UserHelper.getLoggedUser();
       return user.isAdmin
-        ? purchases
+        ? purchases.filter(p => p.status != 3)
         : purchases.filter(p => p.client.id == UserHelper.getLoggedUser().id);
     }
   },
   methods: {
     parseDate: function(date) {
+      if (!date) {
+        return "-";
+      }
       return moment(date).format("DD/MM/YYYY");
     },
     parseTime: function(date) {
+      if (!date) {
+        return "-";
+      }
       return moment(date).format("hh:mm a");
     },
     showPurchase: function(id) {

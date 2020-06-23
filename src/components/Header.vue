@@ -3,20 +3,27 @@
     <ul class="nav">
       <router-link class="nav-link" to="/">Home</router-link>
       <router-link class="nav-link" to="/store">Tienda</router-link>
-      <router-link class="nav-link" to="/purchases" v-if="userHelper.isLogged()"
-        >Pedidos</router-link
-      >
-      <router-link class="nav-link" to="/admin" v-if="userHelper.isLogged() && userHelper.getLoggedUser().isAdmin"
-        >Administrador</router-link
-      >
+      <router-link class="nav-link" to="/purchases" v-if="userHelper.isLogged()">Pedidos</router-link>
+      <router-link
+        class="nav-link"
+        to="/admin"
+        v-if="userHelper.isLogged() && userHelper.getLoggedUser().isAdmin"
+      >Administrador</router-link>
     </ul>
     <ul class="ml-auto nav">
-      <router-link class="btn btn-sm btn-outline-primary" to="/login" v-if="!userHelper.isLogged()"
-        >Ingresar</router-link
-      >
-      <router-link class="nav-link" to="/profile" v-else>{{
-        userHelper.getLoggedUser().name
-      }}</router-link>
+      <router-link
+        class="btn btn-sm btn-outline-primary"
+        to="/login"
+        v-if="!userHelper.isLogged()"
+      >Ingresar</router-link>
+      <template v-else>
+        <router-link class="nav-link" to="/purchases/-1">Mi Carrito</router-link>
+        <router-link class="nav-link" to="/profile">
+          {{
+          userHelper.getLoggedUser().name
+          }}
+        </router-link>
+      </template>
     </ul>
   </header>
 </template>
