@@ -39,11 +39,12 @@
             <table class="table table-striped table-hover">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Producto</th>
-                  <th scope="col">Cantidad</th>
-                  <th scope="col">Precio</th>
-                  <th scope="col" class="text-right">Importe</th>
+                  <th>#</th>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                  <th class="text-right">Importe</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -52,14 +53,18 @@
                   :key="item.id"
                   @click="showProduct(item.product.slug)"
                 >
-                  <td>{{ index + 1 }}</td>
-                  <td>{{ item.product.name }}</td>
-                  <td>{{ item.quantity }}</td>
-                  <td>${{ item.product.price }}</td>
-                  <td class="text-right">${{ item.quantity * item.product.price }}</td>
+                  <td class="align-middle">{{ index + 1 }}</td>
+                  <td class="align-middle">{{ item.product.name }}</td>
+                  <td class="align-middle">{{ item.quantity }}</td>
+                  <td class="align-middle">${{ item.product.price }}</td>
+                  <td class="text-right align-middle">${{ item.quantity * item.product.price }}</td>
+                  <td class="text-right">
+                    <button v-if="isEditable" class="btn btn-link" @click.stop="remove(index)">Eliminar</button>
+                  </td>
                 </tr>
                 <tr>
                   <td colspan="5" class="text-right font-weight-bold">Total: ${{ totalAmount }}</td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>
@@ -90,6 +95,9 @@ export default {
         (prev, current) => prev + current.quantity * current.product.price,
         0
       );
+    },
+    isEditable: function(){
+      return this.purchase.status == 3 && !this.isAdmin;
     }
   },
   methods: {
@@ -109,8 +117,9 @@ export default {
     },
     cancel: function(){
       this.purchase.items = [];
-      // const index = purchases.findIndex(p => p.id == this.purchase.id)
-      // purchases.splice(index, 1)
+    },
+    remove: function(index){
+      this.purchase.items.splice(index, 1)
     }
   },
   components: {
@@ -118,3 +127,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+tr td:last-child{
+    width:1%;
+    white-space:nowrap;
+}
+</style>
