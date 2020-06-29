@@ -149,13 +149,8 @@ tr td:last-child{
     white-space:nowrap;
 }
 .product:hover {
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.2);
-  color: black;
-  text-decoration: none;
-  font-weight: bold;
-  -webkit-transition: all 250ms linear;
-  transition: all 250ms linear;
+  -webkit-box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
+  box-shadow: 0px 0px 7px rgba(229,102,229,1);
   cursor: pointer;
 }
 </style>
