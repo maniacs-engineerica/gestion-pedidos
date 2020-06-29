@@ -1,8 +1,10 @@
 <template>
     <div>    
-        <div>
-            <img width="100" :src="image" :alt="nombre"/>
-            <h2 >{{ nombre }}</h2>
+        <div class="card" style="width: 11rem;">
+            <img class="card-img-top" width="100" :src="image" :alt="nombre"/>
+                <div class="card-body">
+                    <h5 class="card-title">{{ nombre }}</h5>                    
+                </div>
         </div>
     </div>
     
