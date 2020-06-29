@@ -36,6 +36,10 @@
                   v-else-if="purchase.status == 3"
                   class="badge badge-primary"
                 >Carrito en proceso</span>
+                <span
+                  v-else-if="purchase.status == 4"
+                  class="badge badge-danger"
+                >Cancelado</span>
               </td>
             </tr>
           </tbody>

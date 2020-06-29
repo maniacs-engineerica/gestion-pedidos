@@ -68,11 +68,11 @@ export default {
         .slice(0, this.top);
 
       this.data = {
-        labels: mostSoldProducts.map(p => p.title),
+        labels: mostSoldProducts.map(p => p.name),
         datasets: [
           {
             backgroundColor: mostSoldProducts.map(
-              c => toMaterialStyle(c.title).backgroundColor
+              p => toMaterialStyle(p.name).backgroundColor
             ),
             data: mostSoldProducts.map(c => c.count)
           }

@@ -4,7 +4,7 @@
     <h4 v-if="purchase.date" class="text-muted">{{ parseDate() }}</h4>
     <div class="row mb-3" v-if="purchase.status != 0">
       <div class="col">
-        <div class="card">
+        <div class="card" v-if="purchase.status != 4">
           <div class="card-body">
             <template v-if="isAdmin">
               <button
@@ -35,6 +35,7 @@
             <span v-else-if="purchase.status == 1" class="badge badge-warning">Listo</span>
             <span v-else-if="purchase.status == 2" class="badge badge-warning">Preparando en pastelería</span>
             <span v-else-if="purchase.status == 3" class="badge badge-primary">Carrito en proceso</span>
+            <span v-else-if="purchase.status == 4" class="badge badge-danger">Cancelado</span>
             </div>
             <table class="table table-striped">
               <thead class="thead-light">
@@ -122,7 +123,11 @@ export default {
       this.purchase.date = new Date().toISOString();
     },
     cancel: function(){
-      this.purchase.items = [];
+      if (this.purchase.status == 3){
+        this.purchase.items = [];
+      } else {
+        this.purchase.status = 4;
+      }
     },
     remove: function(index){
       this.purchase.items.splice(index, 1)
