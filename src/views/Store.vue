@@ -16,7 +16,8 @@
             <br>
 
             <div id="filtersContainer">
-                <h3>Filtros</h3>
+                <h3>Filtros <button type="button" @click="cleanFilters" class="btn btn-secondary btn-lg" style=" width: 70%; font-size: 15px;">Limpiar</button> </h3>
+                <br>
                 <div>
                     <p>Rango de precios</p>
 
@@ -117,7 +118,15 @@ export default {
             },
              showProduct: function(slug) {
               this.$router.push('/products/'+ slug);
+             },
+             cleanFilters(){
+                this.searchText= ''
+                this.productScore = ''
+                this.productLocation = ''
+                this.minPrice= 0
+                this.maxPrice= 1000
              }
+             
     },
     computed: {
       
