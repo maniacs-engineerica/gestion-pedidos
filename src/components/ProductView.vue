@@ -28,50 +28,51 @@
                 <star-rating :rating="product.rating" :read-only="true" :show-rating="false"></star-rating>
               </span>
               <hr />
-              <div class="row">
-                <div class="col-sm-5">
-                  <dl class="param param-inline">
-                    <dt>Cantidad:</dt>
-                    <dd>
-                      <input
-                        type="number"
-                        min="1"
-                        class="form-control form-control-sm"
-                        style="width:70px;"
-                        v-model="quantity"
-                      />
-                    </dd>
-                  </dl>
-                </div>
-                <div class="col-sm-7">
-                  <dl class="param param-inline">
-                    <dt>Tamaño:</dt>
-                    <dd>
-                      <label class="form-check form-check-inline">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="inlineRadioOptions"
-                          id="inlineRadio2"
-                          value="option2"
-                        />
-                        <span class="form-check-label">Mediano</span>
-                      </label>
-                      <label class="form-check form-check-inline">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="inlineRadioOptions"
-                          id="inlineRadio2"
-                          value="option2"
-                        />
-                        <span class="form-check-label">Grande</span>
-                      </label>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
               <template v-if="purchase">
+                <div class="row">
+                  <div class="col-sm-5">
+                    <dl class="param param-inline">
+                      <dt>Cantidad:</dt>
+                      <dd>
+                        <input
+                          type="number"
+                          min="1"
+                          class="form-control form-control-sm"
+                          style="width:70px;"
+                          v-model="quantity"
+                        />
+                      </dd>
+                    </dl>
+                  </div>
+
+                  <div class="col-sm-7">
+                    <dl class="param param-inline">
+                      <dt>Tamaño:</dt>
+                      <dd>
+                        <label class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="inlineRadioOptions"
+                            id="inlineRadio2"
+                            value="option2"
+                          />
+                          <span class="form-check-label">Mediano</span>
+                        </label>
+                        <label class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="inlineRadioOptions"
+                            id="inlineRadio2"
+                            value="option2"
+                          />
+                          <span class="form-check-label">Grande</span>
+                        </label>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
                 <hr />
                 <button @click="add" class="btn btn-lg btn-outline-primary text-uppercase">
                   {{
@@ -107,11 +108,15 @@ export default {
   computed: {
     item: {
       get: function() {
-        return this.currentItem
-          ? this.currentItem
-          : this.purchase.items.find(
-              item => item.product.slug == this.$route.params.slug
-            );
+        if (this.currentItem) {
+          return this.currentItem;
+        }
+        if (this.purchase) {
+          return this.purchase.items.find(
+            item => item.product.slug == this.$route.params.slug
+          );
+        }
+        return null;
       },
       set: function(item) {
         this.currentItem = item;
