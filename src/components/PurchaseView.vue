@@ -63,7 +63,7 @@
                   <td class="align-middle">${{ item.quantity * item.product.price }}</td>    
                   <td class="align-middle">
                     <button v-if="isEditable" class="btn btn-link" @click.stop="remove(index)">Eliminar</button>
-                    <star-rating v-else-if="purchase.status == 0" :read-only="item.product.rating != 0" :show-rating="false" star-size="30" :rating="item.product.rating" @rating-selected ="setRating($event, index)"></star-rating>
+                    <star-rating v-else-if="purchase.status == 0" :read-only="item.product.rating != 0 || isAdmin" :show-rating="false" star-size="35" :rating="item.product.rating" @rating-selected ="setRating($event, index)"></star-rating>
                   </td>
                 </tr>
                 <tr>

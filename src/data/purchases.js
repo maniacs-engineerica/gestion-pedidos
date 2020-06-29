@@ -92,7 +92,7 @@ export default [
           id: 10,
           slug: 'volcan-chocolate',
           name: "Volcán de chocolate",
-          price: 30,
+          price: 40,
           rating: 0
         }
       },
@@ -101,9 +101,9 @@ export default [
         quantity: 2,
         product: {
           id: 11,
-          slug: 'churros-ddl',
+          slug: 'churros',
           name: "Churros con dulce de leche",
-          price: 15,
+          price: 25,
           rating: 0
         }
       }
