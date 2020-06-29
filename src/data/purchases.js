@@ -6,7 +6,7 @@ export default [
       name: "Ivan Blanco"
     },
     date: "2020-01-10T20:00:00.000Z",
-    status: 0,
+    status: 3,
     items: [
       {
         id: 0,

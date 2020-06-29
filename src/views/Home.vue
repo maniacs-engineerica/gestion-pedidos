@@ -35,7 +35,7 @@
           <div class="container">
             <div class="row">
               <div class="col text-center text-uppercase">
-                <h4>Productos recomendados</h4>
+                <h4 class="display-4">Productos recomendados</h4>
               </div>
             </div>
             <div class="row">
@@ -45,6 +45,7 @@
                   <div class="card-body">
                     <h5 class="card-title">{{product.name}}</h5>
                     <p class="card-text">{{product.description}}</p>
+                    <a href="#" @click.prevent="showProduct(product.slug)">Ver detalle</a>
                   </div>
                 </div>
               </div>
@@ -82,7 +83,7 @@ export default {
   name: "Home",  
   data() {
     return {
-      products: products.filter(p => p.rating >= 4)
+      products: products.filter(p => p.rating >= 4).slice(0, 3)
     }
   },
   methods: {
@@ -92,3 +93,21 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.carousel .carousel-item {
+  height: 450px;
+}
+
+.carousel-item img {
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    max-height: 430px;    
+}
+
+.card {
+  cursor: pointer;
+}
+</style>

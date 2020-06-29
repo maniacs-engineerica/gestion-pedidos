@@ -18,7 +18,7 @@ export default [
     id: 1,
     email: "cotycirion94@gmail.com",
     password: "constanza",
-    isAdmin: false
+    isAdmin: true
   },
   {
     name: "Gaspar De Carlo",

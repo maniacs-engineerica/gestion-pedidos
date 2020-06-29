@@ -43,8 +43,12 @@
                   <th>Producto</th>
                   <th>Cantidad</th>
                   <th>Precio</th>
-                  <th class="text-right">Importe</th>
-                  <th></th>
+                  <th>Importe</th>
+                  <th>
+                    <a v-if="purchase.status == 0">
+                    Puntaje
+                    </a>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -57,14 +61,15 @@
                   <td class="align-middle">{{ item.product.name }}</td>
                   <td class="align-middle">{{ item.quantity }}</td>
                   <td class="align-middle">${{ item.product.price }}</td>
-                  <td class="text-right align-middle">${{ item.quantity * item.product.price }}</td>
-                  <td class="text-right">
+                  <td class="align-middle">${{ item.quantity * item.product.price }}</td>    
+                  <td class="align-middle">
                     <button v-if="isEditable" class="btn btn-link" @click.stop="remove(index)">Eliminar</button>
+                    <star-rating v-else-if="purchase.status == 0" :read-only="false" :show-rating="false" star-size="30" @click.stop="setRating"></star-rating>
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="5" class="text-right font-weight-bold">Total: ${{ totalAmount }}</td>
                   <td></td>
+                  <td colspan="5" class="text-right font-weight-bold">Total: ${{ totalAmount }}</td>
                 </tr>
               </tbody>
             </table>
@@ -79,6 +84,8 @@
 import PageTitle from "@/components/PageTitle.vue";
 import UserHelper from "@/helpers/UserHelper";
 import PurchaseHelper from "@/helpers/PurchaseHelper";
+import StarRating from "vue-star-rating";
+
 // import purchases from "@/data/purchases.js";
 import moment from "moment";
 
@@ -123,7 +130,8 @@ export default {
     }
   },
   components: {
-    PageTitle
+    PageTitle,
+    StarRating
   }
 };
 </script>
