@@ -36,7 +36,7 @@
             <span v-else-if="purchase.status == 2" class="badge badge-warning">Preparando en pastelería</span>
             <span v-else-if="purchase.status == 3" class="badge badge-primary">Carrito en proceso</span>
             </div>
-            <table class="table table-striped table-hover">
+            <table class="table table-striped">
               <thead class="thead-light">
                 <tr>
                   <th>#</th>
@@ -55,16 +55,15 @@
                 <tr
                   v-for="(item, index) in purchase.items"
                   :key="item.id"
-                  @click="showProduct(item.product.slug)"
                 >
                   <td class="align-middle">{{ index + 1 }}</td>
-                  <td class="align-middle">{{ item.product.name }}</td>
+                  <td class="align-middle product" @click="showProduct(item.product.slug)">{{ item.product.name }}</td>
                   <td class="align-middle">{{ item.quantity }}</td>
                   <td class="align-middle">${{ item.product.price }}</td>
                   <td class="align-middle">${{ item.quantity * item.product.price }}</td>    
                   <td class="align-middle">
                     <button v-if="isEditable" class="btn btn-link" @click.stop="remove(index)">Eliminar</button>
-                    <star-rating v-else-if="purchase.status == 0" :read-only="false" :show-rating="false" star-size="30" @click.stop="setRating"></star-rating>
+                    <star-rating v-else-if="purchase.status == 0" :read-only="item.product.rating != 0 || isAdmin" :show-rating="false" star-size="35" :rating="item.product.rating" @rating-selected ="setRating($event, index)"></star-rating>
                   </td>
                 </tr>
                 <tr>
@@ -127,6 +126,9 @@ export default {
     },
     remove: function(index){
       this.purchase.items.splice(index, 1)
+    },
+    setRating: function(rating, index){
+      this.purchase.items[index].product.rating = rating
     }
   },
   components: {
@@ -140,5 +142,15 @@ export default {
 tr td:last-child{
     width:1%;
     white-space:nowrap;
+}
+.product:hover {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.2);
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-transition: all 250ms linear;
+  transition: all 250ms linear;
+  cursor: pointer;
 }
 </style>

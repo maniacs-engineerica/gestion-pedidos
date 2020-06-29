@@ -10,7 +10,7 @@
           </ol>
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="https://images.pexels.com/photos/3302494/pexels-photo-3302494.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="d-block w-100" alt="...">
+              <img src="https://images.pexels.com/photos/6203/food-sweet-cake-candles-6203.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
               <img src="https://images.pexels.com/photos/1129510/pexels-photo-1129510.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="d-block w-100" alt="...">
@@ -104,7 +104,7 @@ export default {
     object-fit: cover;
     top: 0;
     left: 0;
-    max-height: 430px;    
+    max-height: 450px;    
 }
 
 .card {
