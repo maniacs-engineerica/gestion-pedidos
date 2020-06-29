@@ -71,5 +71,35 @@ export default [
         rating: 3,
         category: 'Baked-goods'
     },
+    {
+        id: 7,
+        name: 'Churros',
+        slug: 'churros',
+        description: 'Churros con dulce de leche.',
+        price: 150,
+        image: 'https://images.pexels.com/photos/372886/pexels-photo-372886.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+        rating: 3,
+        category: 'Baked-goods'
+    },
+    {
+        id: 7,
+        name: 'Churros',
+        slug: 'churros',
+        description: 'Churros con dulce de leche.',
+        price: 150,
+        image: 'https://images.pexels.com/photos/372886/pexels-photo-372886.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+        rating: 3,
+        category: 'Baked-goods'
+    },
+    {
+        id: 7,
+        name: 'Churros',
+        slug: 'churros',
+        description: 'Churros con dulce de leche.',
+        price: 150,
+        image: 'https://images.pexels.com/photos/372886/pexels-photo-372886.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+        rating: 3,
+        category: 'Baked-goods'
+    },
 
 ]

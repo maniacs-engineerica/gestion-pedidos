@@ -206,6 +206,10 @@ label { display: block; width: 140px; }
 
 ul {
   list-style-type: none;
+   display: -webkit-flex;
+   display: flex;
+   -webkit-flex-wrap: wrap;
+   flex-wrap: wrap;
 }
  
 li {
@@ -217,13 +221,16 @@ li {
   -o-transition: box-shadow 0.5s ease;
   -ms-transition: box-shadow 0.5s ease;
   transition: box-shadow 0.5s ease;
+  display: -webkit-flex;
+  display: flex;
 }
 
 li :hover {
   -webkit-box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
   box-shadow: 0px 0px 7px rgba(229,102,229,1);
+    display: -webkit-flex;
+  display: flex;
   
 }
-
 
 </style>
