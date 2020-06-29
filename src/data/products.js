@@ -6,7 +6,7 @@ export default [
         description: 'Masa sablé dulce, con crema de limón y merengue italiano.',
         price: 20,
         image: 'https://66.media.tumblr.com/b088b81078c168857d83527969147169/tumblr_nhlfjhDKgJ1sn5m44o1_500.jpg',
-        rating: 4,
+        rating: 1,
         category: 'Dessert'
     },
     {
@@ -16,7 +16,7 @@ export default [
         description: 'Torta de chocolinas con dulce de leche y queso crema.',
         price: 25,
         image: 'https://i.pinimg.com/564x/0c/3e/a7/0c3ea73335cae2d23e0cccf7317ec4c9.jpg',
-        rating: 3,
+        rating: 4,
         category: 'Cake'
     },
     {
@@ -36,7 +36,7 @@ export default [
         description: 'Soy un pan dulce.',
         price: 18,
         image: 'https://i.pinimg.com/564x/b1/ab/99/b1ab99774f44b1e4738cb83a18a920d6.jpg',
-        rating: 3,
+        rating: 4,
         category: 'Dessert'
     },
     {
