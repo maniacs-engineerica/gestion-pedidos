@@ -3,10 +3,13 @@ import UserHelper from "@/helpers/UserHelper";
 
 export default class PurchaseHelper {
   static getOrCreate(id) {
-    let purchase = purchases.find(p => p.id == id);
-    if (!purchase) {
-      purchase = purchases.find(p => p.status == 3);
+    const user = UserHelper.getLoggedUser();
+    if (user.isAdmin){
+      return purchases.find(p => p.id == id)
     }
+    let purchase = purchases.find(
+      p => (p.id == id || id == -1) && p.status == 3 && p.client.id == user.id
+    );
     if (!purchase) {
       purchase = this.create()
       purchases.push(purchase);

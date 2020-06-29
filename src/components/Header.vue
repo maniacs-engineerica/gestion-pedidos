@@ -16,14 +16,16 @@
         to="/login"
         v-if="!userHelper.isLogged()"
       >Ingresar</router-link>
-      <template v-else>
-        <router-link class="nav-link" to="/purchases/-1">Mi Carrito</router-link>
-        <router-link class="nav-link" to="/profile">
-          {{
-          userHelper.getLoggedUser().name
-          }}
-        </router-link>
-      </template>
+      <router-link
+        v-else-if="!userHelper.getLoggedUser().isAdmin"
+        class="nav-link"
+        to="/purchases/-1"
+      >Mi Carrito</router-link>
+      <router-link v-if="userHelper.isLogged()" class="nav-link" to="/profile">
+        {{
+        userHelper.getLoggedUser().name
+        }}
+      </router-link>
     </ul>
   </header>
 </template>
