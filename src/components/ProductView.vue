@@ -81,6 +81,10 @@
                   : "Agregar al carrito"
                   }}
                 </button>
+                <hr/>
+                <div class="alert alert-info" role="alert" v-if="alert">
+                    El producto se agregó al carrito.
+                </div>
               </template>
             </article>
           </aside>
@@ -102,7 +106,8 @@ export default {
       product: products.find(p => p.slug == this.$route.params.slug),
       purchase: PurchaseHelper.getCurrent(),
       currentItem: null,
-      currentQuantity: null
+      currentQuantity: null,
+      alert: null
     };
   },
   computed: {
@@ -148,6 +153,7 @@ export default {
       } else {
         this.item.quantity = this.quantity;
       }
+      this.alert = true
     }
   },
   components: {
