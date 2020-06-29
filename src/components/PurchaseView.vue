@@ -55,16 +55,15 @@
                 <tr
                   v-for="(item, index) in purchase.items"
                   :key="item.id"
-                  @click="showProduct(item.product.slug)"
                 >
                   <td class="align-middle">{{ index + 1 }}</td>
-                  <td class="align-middle">{{ item.product.name }}</td>
+                  <td class="align-middle" @click="showProduct(item.product.slug)">{{ item.product.name }}</td>
                   <td class="align-middle">{{ item.quantity }}</td>
                   <td class="align-middle">${{ item.product.price }}</td>
                   <td class="align-middle">${{ item.quantity * item.product.price }}</td>    
                   <td class="align-middle">
                     <button v-if="isEditable" class="btn btn-link" @click.stop="remove(index)">Eliminar</button>
-                    <star-rating v-else-if="purchase.status == 0" :read-only="false" :show-rating="false" star-size="30" @click.stop="setRating"></star-rating>
+                    <star-rating v-else-if="purchase.status == 0" :read-only="item.product.rating != 0" :show-rating="false" star-size="30" :rating="item.product.rating" @rating-selected ="setRating($event, index)"></star-rating>
                   </td>
                 </tr>
                 <tr>
@@ -127,6 +126,9 @@ export default {
     },
     remove: function(index){
       this.purchase.items.splice(index, 1)
+    },
+    setRating: function(rating, index){
+      this.purchase.items[index].product.rating = rating
     }
   },
   components: {
