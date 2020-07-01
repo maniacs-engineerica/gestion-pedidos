@@ -61,14 +61,13 @@ export default {
     };
   },
   methods: {
-    login: function(e) {
-      // eslint-disable-next-line no-unused-vars
-      UserHelper.login(this.email, this.password, (user, error) => {
-        this.error = error;
-        if (!error){
-          this.$router.replace("/");
-        }
-      });
+    login: async function(e) {
+      try {
+        await UserHelper.login(this.email, this.password);
+        this.$router.replace("/");
+      } catch (error) {
+        this.error = "Usuario o contraseña invalida";
+      }
       e.preventDefault();
     }
   }

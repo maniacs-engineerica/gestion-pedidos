@@ -36,10 +36,7 @@
                   v-else-if="purchase.status == 3"
                   class="badge badge-primary"
                 >Carrito en proceso</span>
-                <span
-                  v-else-if="purchase.status == 4"
-                  class="badge badge-danger"
-                >Cancelado</span>
+                <span v-else-if="purchase.status == 4" class="badge badge-danger">Cancelado</span>
               </td>
             </tr>
           </tbody>
@@ -51,20 +48,30 @@
 
 <script>
 import UserHelper from "@/helpers/UserHelper";
-
-import purchases from "@/data/purchases.js";
+import axios from "axios";
 import moment from "moment";
 
 export default {
-  computed: {
-    purchases: function() {
-      const user = UserHelper.getLoggedUser();
-      return user.isAdmin
-        ? purchases.filter(p => p.status != 3)
-        : purchases.filter(p => p.client.id == UserHelper.getLoggedUser().id);
+  data() {
+    return {
+      purchases: [],
+      loading: true
+    };
+  },
+  async created() {
+    try {
+      this.purchases = await this.getPurchases();
+    } catch (error) {
+      console.log("ERROR", error);
     }
+    this.loading = false
   },
   methods: {
+    async getPurchases() {
+      const user = UserHelper.getLoggedUser().id
+      const response = await axios.get(`/purchases?user=${user}`);
+      return response.data;
+    },
     parseDate: function(date) {
       if (!date) {
         return "-";

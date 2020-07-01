@@ -81,10 +81,12 @@
                   : "Agregar al carrito"
                   }}
                 </button>
-                <hr/>
-                <div class="alert alert-info" role="alert" v-if="alert">
-                    El producto se agregó al carrito.
-                </div>
+                <hr />
+                <div
+                  class="alert alert-info"
+                  role="alert"
+                  v-if="alert"
+                >El producto se agregó al carrito.</div>
               </template>
             </article>
           </aside>
@@ -96,19 +98,31 @@
 
 <script>
 import StarRating from "vue-star-rating";
+import axios from "axios";
 
-import PurchaseHelper from "@/helpers/PurchaseHelper";
+import UserHelper from "@/helpers/UserHelper";
 import products from "@/data/products.js";
 
 export default {
   data() {
     return {
+      loading: true,
       product: products.find(p => p.slug == this.$route.params.slug),
-      purchase: PurchaseHelper.getCurrent(),
+      purchase: null,
       currentItem: null,
       currentQuantity: null,
       alert: null
     };
+  },
+  async created() {
+    try {
+      if (UserHelper.isLogged()) {
+        this.purchase = await this.getCurrentPurchase();
+      }
+    } catch (error) {
+      console.log("ERROR", error);
+    }
+    this.loading = false;
   },
   computed: {
     item: {
@@ -141,6 +155,18 @@ export default {
     }
   },
   methods: {
+    async getCurrentPurchase() {
+      const user = UserHelper.getLoggedUser().id;
+      const response = await axios.get(`/purchases/current?user=${user}`);
+      return response.data;
+    },
+    async updatePurchase() {
+      try {
+        await axios.put(`/purchases/${this.purchase.id}`, this.purchase);
+      } catch (error) {
+        console.log("ERROR", error);
+      }
+    },
     add: function() {
       if (!this.item) {
         const item = {
@@ -153,7 +179,8 @@ export default {
       } else {
         this.item.quantity = this.quantity;
       }
-      this.alert = true
+      this.updatePurchase();
+      this.alert = true;
     }
   },
   components: {

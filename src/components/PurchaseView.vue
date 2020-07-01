@@ -10,15 +10,20 @@
               <button
                 v-if="purchase.status == 2"
                 class="btn btn-success mr-3"
-                @click="changeStatus(1)">
-                Marcar como listo
-              </button>
-              <button v-if="purchase.status == 1" class="btn btn-success mr-3" @click="changeStatus(0)">
-                Marcar como entregado
-              </button>
+                @click="ready()"
+              >Marcar como listo</button>
+              <button
+                v-if="purchase.status == 1"
+                class="btn btn-success mr-3"
+                @click="delivered(0)"
+              >Marcar como entregado</button>
             </template>
             <template v-else-if="purchase.status == 3">
-              <button class="btn btn-success mr-3" @click="confirm" v-bind:disabled="purchase.items.length == 0">Confirmar compra</button>
+              <button
+                class="btn btn-success mr-3"
+                @click="confirm"
+                v-bind:disabled="purchase.items.length == 0"
+              >Confirmar compra</button>
             </template>
             <button class="btn btn-danger" @click="cancel" v-if="purchase.items.length > 0">Cancelar</button>
           </div>
@@ -30,12 +35,15 @@
         <div class="card">
           <div class="card-body">
             <div class="mb-3">
-            <span class="font-weight-bold mr-2">Estado Actual:</span>
-            <span v-if="purchase.status == 0" class="badge badge-success">Entregado</span>
-            <span v-else-if="purchase.status == 1" class="badge badge-warning">Listo</span>
-            <span v-else-if="purchase.status == 2" class="badge badge-warning">Preparando en pastelería</span>
-            <span v-else-if="purchase.status == 3" class="badge badge-primary">Carrito en proceso</span>
-            <span v-else-if="purchase.status == 4" class="badge badge-danger">Cancelado</span>
+              <span class="font-weight-bold mr-2">Estado Actual:</span>
+              <span v-if="purchase.status == 0" class="badge badge-success">Entregado</span>
+              <span v-else-if="purchase.status == 1" class="badge badge-warning">Listo</span>
+              <span
+                v-else-if="purchase.status == 2"
+                class="badge badge-warning"
+              >Preparando en pastelería</span>
+              <span v-else-if="purchase.status == 3" class="badge badge-primary">Carrito en proceso</span>
+              <span v-else-if="purchase.status == 4" class="badge badge-danger">Cancelado</span>
             </div>
             <table class="table table-striped">
               <thead class="thead-light">
@@ -46,25 +54,34 @@
                   <th>Precio</th>
                   <th>Importe</th>
                   <th>
-                    <a v-if="purchase.status == 0">
-                    Puntaje
-                    </a>
+                    <a v-if="purchase.status == 0">Puntaje</a>
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  v-for="(item, index) in purchase.items"
-                  :key="item.id"
-                >
+                <tr v-for="(item, index) in purchase.items" :key="item.id">
                   <td class="align-middle">{{ index + 1 }}</td>
-                  <td class="align-middle product" @click="showProduct(item.product.slug)">{{ item.product.name }}</td>
+                  <td
+                    class="align-middle product"
+                    @click="showProduct(item.product.slug)"
+                  >{{ item.product.name }}</td>
                   <td class="align-middle">{{ item.quantity }}</td>
                   <td class="align-middle">${{ item.product.price }}</td>
-                  <td class="align-middle">${{ item.quantity * item.product.price }}</td>    
+                  <td class="align-middle">${{ item.quantity * item.product.price }}</td>
                   <td class="align-middle">
-                    <button v-if="isEditable" class="btn btn-link" @click.stop="remove(index)">Eliminar</button>
-                    <star-rating v-else-if="purchase.status == 0" :read-only="item.product.rating != 0 || isAdmin" :show-rating="false" star-size="35" :rating="item.product.rating" @rating-selected ="setRating($event, index)"></star-rating>
+                    <button
+                      v-if="isEditable"
+                      class="btn btn-link"
+                      @click.stop="remove(index)"
+                    >Eliminar</button>
+                    <star-rating
+                      v-else-if="purchase.status == 0"
+                      :read-only="item.product.rating != 0 || isAdmin"
+                      :show-rating="false"
+                      star-size="35"
+                      :rating="item.product.rating"
+                      @rating-selected="setRating($event, index)"
+                    ></star-rating>
                   </td>
                 </tr>
                 <tr>
@@ -83,31 +100,53 @@
 <script>
 import PageTitle from "@/components/PageTitle.vue";
 import UserHelper from "@/helpers/UserHelper";
-import PurchaseHelper from "@/helpers/PurchaseHelper";
 import StarRating from "vue-star-rating";
 
 // import purchases from "@/data/purchases.js";
 import moment from "moment";
+import axios from 'axios';
 
 export default {
   data() {
     return {
-      purchase: PurchaseHelper.getOrCreate(this.$route.params.id),
+      loading: true,
+      purchase: null,
       isAdmin: UserHelper.getLoggedUser().isAdmin
     };
+  },
+  async created() {
+    try {
+      this.purchase = await this.getPurchase();
+    } catch (error) {
+      console.log("ERROR", error);
+    }
+    this.loading = false;
   },
   computed: {
     totalAmount: function() {
       return this.purchase.items.reduce(
-        (prev, current) => prev + current.quantity * current.product.price,
-        0
-      );
+            (prev, current) => prev + current.quantity * current.product.price, 0
+        );
     },
-    isEditable: function(){
+    isEditable: function() {
       return this.purchase.status == 3 && !this.isAdmin;
     }
   },
   methods: {
+    async getPurchase() {
+      const user = UserHelper.getLoggedUser().id
+      const response = await axios.get(
+        `/purchases/${this.$route.params.id}?user=${user}`
+      );
+      return response.data;
+    },
+    async updatePurchase() {
+      try {
+        await axios.put(`/purchases/${this.purchase.id}`, this.purchase);
+      } catch (error) {
+        console.log("ERROR", error);
+      }
+    },
     parseDate: function() {
       const date = moment(this.purchase.date);
       return date.format("DD/MM/YYYY") + " - " + date.format("hh:mm a");
@@ -118,22 +157,34 @@ export default {
     changeStatus: function(status) {
       this.purchase.status = status;
     },
-    confirm: function(){
-      this.changeStatus(2)
-      this.purchase.date = new Date().toISOString();
+    ready: function() {
+      this.changeStatus(1);
+      this.updatePurchase()
     },
-    cancel: function(){
-      if (this.purchase.status == 3){
+    delivered: function() {
+      this.changeStatus(0);
+      this.updatePurchase()
+    },
+    confirm: function() {
+      this.changeStatus(2);
+      this.purchase.date = new Date().toISOString();
+      this.updatePurchase()
+    },
+    cancel: function() {
+      if (this.purchase.status == 3) {
         this.purchase.items = [];
       } else {
         this.purchase.status = 4;
       }
+      this.updatePurchase()
     },
-    remove: function(index){
-      this.purchase.items.splice(index, 1)
+    remove: function(index) {
+      this.purchase.items.splice(index, 1);
+      this.updatePurchase()
     },
-    setRating: function(rating, index){
-      this.purchase.items[index].product.rating = rating
+    setRating: function(rating, index) {
+      this.purchase.items[index].product.rating = rating;
+      this.updatePurchase()
     }
   },
   components: {
@@ -144,13 +195,13 @@ export default {
 </script>
 
 <style scoped>
-tr td:last-child{
-    width:1%;
-    white-space:nowrap;
+tr td:last-child {
+  width: 1%;
+  white-space: nowrap;
 }
 .product:hover {
-  -webkit-box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
-  box-shadow: 0px 0px 7px rgba(229,102,229,1);
+  -webkit-box-shadow: 0px 0px 7px rgba(255, 255, 255, 0.9);
+  box-shadow: 0px 0px 7px rgba(229, 102, 229, 1);
   cursor: pointer;
 }
 </style>

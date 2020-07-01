@@ -1,5 +1,5 @@
-import users from "../data/users.js";
 import CookieHelper from "./CookieHelper.js";
+import axios from "axios";
 
 class UserHelper {
   constructor() {
@@ -10,13 +10,16 @@ class UserHelper {
     }
   }
 
-  login(email, password, callback) {
-    const user = users.find(u => u.email === email && u.password === password);
-    const error = user == null ? "Usuario y/o contraseña inválida" : null;
-    callback(user, error);
+  async login(email, password) {
+    const credentials = {
+      email: email,
+      password: password
+    }
+    const response = await axios.post("users/login", credentials)
+    const user = response.data;
     this.loggedUser = user;
     if (user != null){
-      CookieHelper.set("user", JSON.stringify(user))
+      CookieHelper.set("user", JSON.stringify(user));
     }
   }
 
