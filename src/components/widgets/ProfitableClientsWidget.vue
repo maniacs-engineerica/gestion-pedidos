@@ -15,7 +15,7 @@
 <script>
 import PieChart from "../charts/PieChart.js";
 import toMaterialStyle from "material-color-hash";
-import purchases from "@/data/purchases.js";
+import axios from 'axios';
 
 export default {
   components: {
@@ -23,6 +23,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       data: null,
       top: 10,
       options: {
@@ -40,32 +41,23 @@ export default {
       }
     };
   },
-  mounted() {
-    this.fillData();
+  async created() {
+    try {
+      const data = await this.getData();
+      this.fillData(data);
+    } catch (error) {
+      console.log("ERROR", error);
+    }
+    this.loading = false;
   },
   methods: {
-    fillData() {
-      const clients = purchases.reduce((prev, current) => {
-        let client = prev.find(c => c.id == current.client.id);
-        if (!client) {
-          client = Object.assign({ amount: 0 }, current.client);
-          prev.push(client);
-        }
-
-        const purchaseAmount = current.items.reduce(
-          (prev, current) => prev + current.quantity * current.product.price,
-          0
-        );
-
-        client.amount += purchaseAmount;
-
-        return prev;
-      }, []);
-
-      const mostProfitableClients = clients
-        .sort((a, b) => b.amount - a.amount)
-        .slice(0, this.top);
-
+    async getData() {
+      const response = await axios.get(
+        `/analytics/profitableclients?limit=${this.top}`
+      );
+      return response.data;
+    },
+    fillData(mostProfitableClients) {
       this.data = {
         labels: mostProfitableClients.map(c => c.name),
         datasets: [

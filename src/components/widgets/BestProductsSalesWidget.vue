@@ -17,7 +17,7 @@
 <script>
 import PieChart from "../charts/PieChart.js";
 import toMaterialStyle from "material-color-hash";
-import purchases from "@/data/purchases.js";
+import axios from 'axios';
 
 export default {
   components: {
@@ -25,6 +25,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       data: null,
       top: 5,
       options: {
@@ -43,30 +44,21 @@ export default {
       }
     };
   },
-  mounted() {
-    this.fillData();
+  async created() {
+    try {
+      const data = await this.getData();
+      this.fillData(data)
+    } catch (error) {
+      console.log("ERROR", error);
+    }
+    this.loading = false
   },
   methods: {
-    fillData() {
-      const items = purchases.reduce(
-        (prev, current) => prev.concat(current.items),
-        []
-      );
-      const productsCount = items
-        .map(p => p.product)
-        .reduce((prev, current) => {
-          let product = prev.find(p => p.id == current.id);
-          if (!product) {
-            product = Object.assign({ count: 0 }, current);
-            prev.push(product);
-          }
-          product.count++;
-          return prev;
-        }, []);
-      const mostSoldProducts = productsCount
-        .sort((a, b) => b.count - a.count)
-        .slice(0, this.top);
-
+     async getData() {
+      const response = await axios.get(`/analytics/productsales?limit=${this.top}`);
+      return response.data;
+    },
+    fillData(mostSoldProducts) {
       this.data = {
         labels: mostSoldProducts.map(p => p.name),
         datasets: [

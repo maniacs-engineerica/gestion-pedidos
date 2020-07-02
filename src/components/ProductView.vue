@@ -28,7 +28,7 @@
                 <star-rating :rating="product.rating" :read-only="true" :show-rating="false"></star-rating>
               </span>
               <hr />
-              <template v-if="purchase">
+              <template v-if="purchase && isClient">
                 <div class="row">
                   <div class="col-sm-5">
                     <dl class="param param-inline">
@@ -106,6 +106,7 @@ import products from "@/data/products.js";
 export default {
   data() {
     return {
+      isClient: UserHelper.isLogged() && !UserHelper.getLoggedUser().isAdmin,
       loading: true,
       product: products.find(p => p.slug == this.$route.params.slug),
       purchase: null,

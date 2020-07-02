@@ -3,9 +3,7 @@
     <div class="card-body">
       <div class="border-bottom pb-2 card-title">
         {{ top }} Clientes más frecuentes
-        <div class="small text-muted">
-          Basado en la cantidad de pedidos realizados
-        </div>
+        <div class="small text-muted">Basado en la cantidad de pedidos realizados</div>
       </div>
       <div class="m-sm-0 mx-lg-3">
         <pie-chart :chart-data="data" :options="options"></pie-chart>
@@ -17,7 +15,7 @@
 <script>
 import PieChart from "../charts/PieChart.js";
 import toMaterialStyle from "material-color-hash";
-import purchases from "@/data/purchases.js";
+import axios from 'axios';
 
 export default {
   components: {
@@ -25,6 +23,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       data: null,
       top: 10,
       options: {
@@ -43,27 +42,23 @@ export default {
       }
     };
   },
-  mounted() {
-    this.fillData();
+  async created() {
+    try {
+      const data = await this.getData();
+      this.fillData(data);
+    } catch (error) {
+      console.log("ERROR", error);
+    }
+    this.loading = false;
   },
   methods: {
-    fillData() {
-      const clients = purchases
-        .map(p => p.client)
-        .reduce((prev, current) => {
-          let client = prev.find(c => c.id == current.id);
-          if (!client) {
-            client = Object.assign({ count: 0 }, current);
-            prev.push(client);
-          }
-          client.count++;
-          return prev;
-        }, []);
-
-      const mostFrequentClients = clients
-        .sort((a, b) => b.count - a.count)
-        .slice(0, this.top);
-
+    async getData() {
+      const response = await axios.get(
+        `/analytics/frequentclients?limit=${this.top}`
+      );
+      return response.data;
+    },
+    fillData(mostFrequentClients) {
       this.data = {
         labels: mostFrequentClients.map(c => c.name),
         datasets: [

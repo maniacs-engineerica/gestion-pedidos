@@ -62,13 +62,13 @@ export default {
   },
   methods: {
     login: async function(e) {
+      e.preventDefault();
       try {
         await UserHelper.login(this.email, this.password);
         this.$router.replace("/");
       } catch (error) {
         this.error = "Usuario o contraseña invalida";
       }
-      e.preventDefault();
     }
   }
 };
