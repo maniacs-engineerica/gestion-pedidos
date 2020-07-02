@@ -11,6 +11,11 @@
         <best-products-sales-widget />
       </div>
     </div>
+    <div class="row">
+      <div class="col">
+        <products-ranking-widget />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,13 +23,15 @@
 import FrequentClientsWidget from "@/components/widgets/FrequentClientsWidget.vue";
 import ProfitableClientsWidget from "@/components/widgets/ProfitableClientsWidget.vue";
 import BestProductsSalesWidget from "@/components/widgets/BestProductsSalesWidget.vue";
+import ProductsRankingWidget from "@/components/widgets/ProductsRankingWidget.vue";
 
 export default {
   name: "Home",
   components: {
     FrequentClientsWidget,
     ProfitableClientsWidget,
-    BestProductsSalesWidget
+    BestProductsSalesWidget,
+    ProductsRankingWidget
   }
 };
 </script>

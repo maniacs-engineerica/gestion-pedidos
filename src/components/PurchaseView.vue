@@ -76,10 +76,10 @@
                     >Eliminar</button>
                     <star-rating
                       v-else-if="purchase.status == 0"
-                      :read-only="item.product.rating != 0 || isAdmin"
+                      :read-only="item.rating != 0 || isAdmin"
                       :show-rating="false"
                       star-size="35"
-                      :rating="item.product.rating"
+                      :rating="item.rating"
                       @rating-selected="setRating($event, index)"
                     ></star-rating>
                   </td>
@@ -102,7 +102,6 @@ import PageTitle from "@/components/PageTitle.vue";
 import UserHelper from "@/helpers/UserHelper";
 import StarRating from "vue-star-rating";
 
-// import purchases from "@/data/purchases.js";
 import moment from "moment";
 import axios from 'axios';
 
@@ -183,7 +182,7 @@ export default {
       this.updatePurchase()
     },
     setRating: function(rating, index) {
-      this.purchase.items[index].product.rating = rating;
+      this.purchase.items[index].rating = rating;
       this.updatePurchase()
     }
   },

@@ -24,7 +24,7 @@
                   <p>{{product.description}}</p>
                 </dd>
               </dl>
-              <span>
+              <span v-if="product.rating">
                 <star-rating :rating="product.rating" :read-only="true" :show-rating="false"></star-rating>
               </span>
               <hr />
@@ -101,14 +101,13 @@ import StarRating from "vue-star-rating";
 import axios from "axios";
 
 import UserHelper from "@/helpers/UserHelper";
-import products from "@/data/products.js";
 
 export default {
   data() {
     return {
       isClient: UserHelper.isLogged() && !UserHelper.getLoggedUser().isAdmin,
       loading: true,
-      product: products.find(p => p.slug == this.$route.params.slug),
+      product: null,
       purchase: null,
       currentItem: null,
       currentQuantity: null,
@@ -117,6 +116,7 @@ export default {
   },
   async created() {
     try {
+      this.product = await this.getProduct()
       if (UserHelper.isLogged()) {
         this.purchase = await this.getCurrentPurchase();
       }
@@ -156,6 +156,10 @@ export default {
     }
   },
   methods: {
+    async getProduct() {
+      const response = await axios.get(`/products/${this.$route.params.slug}`);
+      return response.data;
+    },
     async getCurrentPurchase() {
       const user = UserHelper.getLoggedUser().id;
       const response = await axios.get(`/purchases/current?user=${user}`);
@@ -173,7 +177,8 @@ export default {
         const item = {
           id: this.purchase.items.length,
           quantity: this.quantity,
-          product: this.product
+          product: this.product,
+          rating: 0
         };
         this.purchase.items.push(item);
         this.currentItem = item;
