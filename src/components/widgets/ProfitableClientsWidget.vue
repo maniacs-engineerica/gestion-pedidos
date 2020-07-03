@@ -5,7 +5,9 @@
         {{ top }} Clientes más rentables
         <div class="small text-muted">Basado en el importe de sus pedidos</div>
       </div>
-      <div class="m-sm-0 mx-lg-3">
+      <loading-view v-if="loading" />
+      <div v-else-if="error">Ha ocurrido un error</div>
+      <div v-else class="m-sm-0 mx-lg-3">
         <pie-chart :chart-data="data" :options="options"></pie-chart>
       </div>
     </div>
@@ -14,16 +16,20 @@
 
 <script>
 import PieChart from "../charts/PieChart.js";
+import LoadingView from "@/components/LoadingView.vue";
+
 import toMaterialStyle from "material-color-hash";
 import axios from 'axios';
 
 export default {
   components: {
-    PieChart
+    PieChart,
+    LoadingView
   },
   data() {
     return {
       loading: true,
+      error: false,
       data: null,
       top: 10,
       options: {
@@ -46,7 +52,7 @@ export default {
       const data = await this.getData();
       this.fillData(data);
     } catch (error) {
-      console.log("ERROR", error);
+      this.error = true;
     }
     this.loading = false;
   },

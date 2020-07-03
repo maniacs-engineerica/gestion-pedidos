@@ -1,99 +1,115 @@
 <template>
   <div>
-    <page-title v-bind:message="'Pedido de ' + purchase.client.name" />
-    <h4 v-if="purchase.date" class="text-muted">{{ parseDate() }}</h4>
-    <div class="row mb-3" v-if="purchase.status != 0">
-      <div class="col">
-        <div class="card" v-if="purchase.status != 4">
-          <div class="card-body">
-            <template v-if="isAdmin">
-              <button
-                v-if="purchase.status == 2"
-                class="btn btn-success mr-3"
-                @click="ready()"
-              >Marcar como listo</button>
-              <button
-                v-if="purchase.status == 1"
-                class="btn btn-success mr-3"
-                @click="delivered(0)"
-              >Marcar como entregado</button>
-            </template>
-            <template v-else-if="purchase.status == 3">
-              <button
-                class="btn btn-success mr-3"
-                @click="confirm"
-                v-bind:disabled="purchase.items.length == 0"
-              >Confirmar compra</button>
-            </template>
-            <button class="btn btn-danger" @click="cancel" v-if="purchase.items.length > 0">Cancelar</button>
-          </div>
+    <template v-if="loading || error">
+      <div class="card">
+        <div class="card-body">
+          <loading-view v-if="loading" />
+          <div v-else>Ha ocurrido un error</div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="card">
-          <div class="card-body">
-            <div class="mb-3">
-              <span class="font-weight-bold mr-2">Estado Actual:</span>
-              <span v-if="purchase.status == 0" class="badge badge-success">Entregado</span>
-              <span v-else-if="purchase.status == 1" class="badge badge-warning">Listo</span>
-              <span
-                v-else-if="purchase.status == 2"
-                class="badge badge-warning"
-              >Preparando en pastelería</span>
-              <span v-else-if="purchase.status == 3" class="badge badge-primary">Carrito en proceso</span>
-              <span v-else-if="purchase.status == 4" class="badge badge-danger">Cancelado</span>
+    </template>
+    <template v-else>
+      <page-title v-bind:message="'Pedido de ' + purchase.client.name" />
+      <h4 v-if="purchase.date" class="text-muted">{{ parseDate() }}</h4>
+      <div class="row mb-3" v-if="purchase.status != 0">
+        <div class="col">
+          <div class="card" v-if="purchase.status != 4">
+            <div class="card-body">
+              <template v-if="isAdmin">
+                <button
+                  v-if="purchase.status == 2"
+                  class="btn btn-success mr-3"
+                  @click="ready()"
+                >Marcar como listo</button>
+                <button
+                  v-if="purchase.status == 1"
+                  class="btn btn-success mr-3"
+                  @click="delivered(0)"
+                >Marcar como entregado</button>
+              </template>
+              <template v-else-if="purchase.status == 3">
+                <button
+                  class="btn btn-success mr-3"
+                  @click="confirm"
+                  v-bind:disabled="purchase.items.length == 0"
+                >Confirmar compra</button>
+              </template>
+              <button
+                class="btn btn-danger"
+                @click="cancel"
+                v-if="purchase.items.length > 0"
+              >Cancelar</button>
             </div>
-            <table class="table table-striped">
-              <thead class="thead-light">
-                <tr>
-                  <th>#</th>
-                  <th>Producto</th>
-                  <th>Cantidad</th>
-                  <th>Precio</th>
-                  <th>Importe</th>
-                  <th>
-                    <a v-if="purchase.status == 0">Puntaje</a>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(item, index) in purchase.items" :key="item.id">
-                  <td class="align-middle">{{ index + 1 }}</td>
-                  <td
-                    class="align-middle product"
-                    @click="showProduct(item.product.slug)"
-                  >{{ item.product.name }}</td>
-                  <td class="align-middle">{{ item.quantity }}</td>
-                  <td class="align-middle">${{ item.product.price }}</td>
-                  <td class="align-middle">${{ item.quantity * item.product.price }}</td>
-                  <td class="align-middle">
-                    <button
-                      v-if="isEditable"
-                      class="btn btn-link"
-                      @click.stop="remove(index)"
-                    >Eliminar</button>
-                    <star-rating
-                      v-else-if="purchase.status == 0"
-                      :read-only="item.rating != 0 || isAdmin"
-                      :show-rating="false"
-                      star-size="35"
-                      :rating="item.rating"
-                      @rating-selected="setRating($event, index)"
-                    ></star-rating>
-                  </td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td colspan="5" class="text-right font-weight-bold">Total: ${{ totalAmount }}</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </div>
-    </div>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <div class="mb-3">
+                <span class="font-weight-bold mr-2">Estado Actual:</span>
+                <span v-if="purchase.status == 0" class="badge badge-success">Entregado</span>
+                <span v-else-if="purchase.status == 1" class="badge badge-warning">Listo</span>
+                <span
+                  v-else-if="purchase.status == 2"
+                  class="badge badge-warning"
+                >Preparando en pastelería</span>
+                <span
+                  v-else-if="purchase.status == 3"
+                  class="badge badge-primary"
+                >Carrito en proceso</span>
+                <span v-else-if="purchase.status == 4" class="badge badge-danger">Cancelado</span>
+              </div>
+              <table class="table table-striped">
+                <thead class="thead-light">
+                  <tr>
+                    <th>#</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th class="text-right">Importe</th>
+                    <th class="text-right">
+                      <a v-if="purchase.status == 0">Puntaje</a>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item, index) in purchase.items" :key="item.id">
+                    <td class="align-middle">{{ index + 1 }}</td>
+                    <td
+                      class="align-middle product"
+                      @click="showProduct(item.product.slug)"
+                    >{{ item.product.name }}</td>
+                    <td class="align-middle">{{ item.quantity }}</td>
+                    <td class="align-middle">${{ item.product.price }}</td>
+                    <td class="align-middle text-right">${{ item.quantity * item.product.price }}</td>
+                    <td class="align-middle">
+                      <button
+                        v-if="isEditable"
+                        class="btn btn-link"
+                        @click.stop="remove(index)"
+                      >Eliminar</button>
+                      <star-rating
+                        v-else-if="purchase.status == 0"
+                        :read-only="item.rating != 0 || isAdmin"
+                        :show-rating="false"
+                        star-size="26"
+                        :rating="item.rating"
+                        @rating-selected="setRating($event, index)"
+                      ></star-rating>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" class="text-right font-weight-bold">Total: ${{ totalAmount }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -102,10 +118,17 @@ import PageTitle from "@/components/PageTitle.vue";
 import UserHelper from "@/helpers/UserHelper";
 import StarRating from "vue-star-rating";
 
+import LoadingView from "@/components/LoadingView.vue";
+
 import moment from "moment";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
+  components: {
+    PageTitle,
+    StarRating,
+    LoadingView
+  },
   data() {
     return {
       loading: true,
@@ -117,15 +140,16 @@ export default {
     try {
       this.purchase = await this.getPurchase();
     } catch (error) {
-      console.log("ERROR", error);
+      this.error = true;
     }
     this.loading = false;
   },
   computed: {
     totalAmount: function() {
       return this.purchase.items.reduce(
-            (prev, current) => prev + current.quantity * current.product.price, 0
-        );
+        (prev, current) => prev + current.quantity * current.product.price,
+        0
+      );
     },
     isEditable: function() {
       return this.purchase.status == 3 && !this.isAdmin;
@@ -133,7 +157,7 @@ export default {
   },
   methods: {
     async getPurchase() {
-      const user = UserHelper.getLoggedUser().id
+      const user = UserHelper.getLoggedUser().id;
       const response = await axios.get(
         `/purchases/${this.$route.params.id}?user=${user}`
       );
@@ -158,16 +182,16 @@ export default {
     },
     ready: function() {
       this.changeStatus(1);
-      this.updatePurchase()
+      this.updatePurchase();
     },
     delivered: function() {
       this.changeStatus(0);
-      this.updatePurchase()
+      this.updatePurchase();
     },
     confirm: function() {
       this.changeStatus(2);
       this.purchase.date = new Date().toISOString();
-      this.updatePurchase()
+      this.updatePurchase();
     },
     cancel: function() {
       if (this.purchase.status == 3) {
@@ -175,20 +199,16 @@ export default {
       } else {
         this.purchase.status = 4;
       }
-      this.updatePurchase()
+      this.updatePurchase();
     },
     remove: function(index) {
       this.purchase.items.splice(index, 1);
-      this.updatePurchase()
+      this.updatePurchase();
     },
     setRating: function(rating, index) {
       this.purchase.items[index].rating = rating;
-      this.updatePurchase()
+      this.updatePurchase();
     }
-  },
-  components: {
-    PageTitle,
-    StarRating
   }
 };
 </script>

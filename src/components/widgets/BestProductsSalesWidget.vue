@@ -3,11 +3,11 @@
     <div class="card-body">
       <div class="border-bottom pb-2 card-title">
         {{ top }} Productos más exitosos
-        <div class="small text-muted">
-          Basado en la cantidad de unidades vendidas
-        </div>
+        <div class="small text-muted">Basado en la cantidad de unidades vendidas</div>
       </div>
-      <div class="m-sm-0 mx-lg-3">
+      <loading-view v-if="loading" />
+      <div v-else-if="error">Ha ocurrido un error</div>
+      <div v-else class="m-sm-0 mx-lg-3">
         <pie-chart :chart-data="data" :options="options"></pie-chart>
       </div>
     </div>
@@ -16,16 +16,19 @@
 
 <script>
 import PieChart from "../charts/PieChart.js";
+import LoadingView from "@/components/LoadingView.vue";
 import toMaterialStyle from "material-color-hash";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   components: {
-    PieChart
+    PieChart,
+    LoadingView
   },
   data() {
     return {
       loading: true,
+      error: false,
       data: null,
       top: 5,
       options: {
@@ -47,15 +50,17 @@ export default {
   async created() {
     try {
       const data = await this.getData();
-      this.fillData(data)
+      this.fillData(data);
     } catch (error) {
-      console.log("ERROR", error);
+      this.error = true;
     }
-    this.loading = false
+    this.loading = false;
   },
   methods: {
-     async getData() {
-      const response = await axios.get(`/analytics/productsales?limit=${this.top}`);
+    async getData() {
+      const response = await axios.get(
+        `/analytics/productsales?limit=${this.top}`
+      );
       return response.data;
     },
     fillData(mostSoldProducts) {

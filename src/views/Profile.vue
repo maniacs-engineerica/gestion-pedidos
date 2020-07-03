@@ -20,7 +20,7 @@ export default {
   methods: {
     logout: function() {
       UserHelper.logout()
-      this.$router.replace("/login");
+      this.$router.replace("/");
     }
   },
   components: {

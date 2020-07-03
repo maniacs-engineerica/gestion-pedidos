@@ -1,5 +1,29 @@
 <template>
   <div>
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xs-12 col-md-auto">
+            <select class="form-control" v-model="status" @change="onChangeStatus">
+              <option value="-1">Todos los estados</option>
+              <option value="0">Entregado</option>
+              <option value="1">Listo</option>
+              <option value="2">Preparando</option>
+              <option value="4">Cancelado</option>
+            </select>
+          </div>
+          <div v-if="isAdmin" class="col-xs-12 col-md-auto">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar por cliente..."
+              v-model="client"
+              @input="onChangeClient"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="card">
       <div class="card-body">
         <table class="table table-striped table-hover">
@@ -41,6 +65,8 @@
             </tr>
           </tbody>
         </table>
+        <loading-view v-if="loading" />
+        <div v-else-if="error">Ha ocurrido un error</div>
       </div>
     </div>
   </div>
@@ -51,26 +77,51 @@ import UserHelper from "@/helpers/UserHelper";
 import axios from "axios";
 import moment from "moment";
 
+import LoadingView from "@/components/LoadingView.vue";
+
 export default {
+  components: {
+    LoadingView
+  },
   data() {
     return {
       purchases: [],
-      loading: true
+      status: -1,
+      client: "",
+      loading: true,
+      isAdmin: UserHelper.getLoggedUser().isAdmin
     };
   },
   async created() {
-    try {
-      this.purchases = await this.getPurchases();
-    } catch (error) {
-      console.log("ERROR", error);
-    }
-    this.loading = false
+    this.reload();
   },
   methods: {
     async getPurchases() {
-      const user = UserHelper.getLoggedUser().id
-      const response = await axios.get(`/purchases?user=${user}`);
+      const user = UserHelper.getLoggedUser().id;
+      const response = await axios.get(
+        `/purchases?user=${user}&status=${this.status}&client=${this.client}`
+      );
       return response.data;
+    },
+    reload: async function() {
+      this.loading = true;
+      this.error = false;
+      this.purchases = [];
+      try {
+        this.purchases = await this.getPurchases();
+      } catch (error) {
+        this.error = true;
+      }
+      this.loading = false;
+    },
+    onChangeStatus: function() {
+      this.reload();
+    },
+    onChangeClient: function() {
+      if (this.dispatchId > 0){
+        clearTimeout(this.dispatchId)
+      }
+      this.dispatchId = setTimeout(this.reload, 250);
     },
     parseDate: function(date) {
       if (!date) {
