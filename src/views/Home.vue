@@ -31,7 +31,9 @@
       </main>
 
       <!-- Cards -->
-      <section id="promos" class="mt-4">
+      <loading-view v-if="loading" />
+      <div v-else-if="error">Ha ocurrido un error al cargar los productos</div>
+      <section v-else id="promos" class="mt-4">
           <div class="container">
             <div class="row">
               <div class="col text-center text-uppercase">
@@ -39,7 +41,7 @@
               </div>
             </div>
             <div class="row">
-              <div v-for="product in products" :key="product.id" @click="showProduct(product.slug)" class="col-12 col-md-4 mt-4 mb-4">
+              <div v-for="product in topProducts" :key="product.id" @click="showProduct(product.slug)" class="col-12 col-md-4 mt-4 mb-4">
                 <div class="card">
                   <img class="mt-2 card-img-top" :src="product.image" :alt="product.name">
                   <div class="card-body">
@@ -76,20 +78,38 @@
 </template>
 
 <script>
-
-import products from "@/data/products.js";
+import axios from "axios";
+import LoadingView from "@/components/LoadingView.vue";
 
 export default {
   name: "Home",  
   data() {
     return {
-      products: products.filter(p => p.rating >= 4).slice(0, 3)
+      loading: true,
+      error: false,
+      topProducts: []
     }
   },
+  async created(){
+    try {
+      const allProducts = await this.getProducts();
+      this.topProducts = allProducts.slice(0, 3);
+    } catch (error) {
+      this.error = true;
+    }
+    this.loading = false;
+  },
   methods: {
+    async getProducts() {
+      const response = await axios.get("/analytics/productsranking");
+      return response.data;
+    },
     showProduct: function(slug) {
       this.$router.push('/products/'+ slug);
     }
+  },
+  components: {
+    LoadingView
   }
 };
 </script>
