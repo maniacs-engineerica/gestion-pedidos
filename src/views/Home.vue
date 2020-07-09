@@ -32,7 +32,7 @@
 
       <!-- Cards -->
       <loading-view v-if="loading" />
-      <div v-else-if="error">Ha ocurrido un error al cargar los productos</div>
+      <error-view v-else-if="error"/>
       <section v-else id="promos" class="mt-4">
           <div class="container">
             <div class="row">
@@ -80,6 +80,7 @@
 <script>
 import axios from "axios";
 import LoadingView from "@/components/LoadingView.vue";
+import ErrorView from "@/components/ErrorView.vue";
 
 export default {
   name: "Home",  
@@ -109,7 +110,8 @@ export default {
     }
   },
   components: {
-    LoadingView
+    LoadingView,
+    ErrorView
   }
 };
 </script>

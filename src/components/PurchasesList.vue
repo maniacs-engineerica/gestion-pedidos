@@ -66,7 +66,7 @@
           </tbody>
         </table>
         <loading-view v-if="loading" />
-        <div v-else-if="error">Ha ocurrido un error</div>
+        <error-view v-else-if="error"/>
       </div>
     </div>
   </div>
@@ -78,10 +78,12 @@ import axios from "axios";
 import moment from "moment";
 
 import LoadingView from "@/components/LoadingView.vue";
+import ErrorView from "@/components/ErrorView.vue";
 
 export default {
   components: {
-    LoadingView
+    LoadingView,
+    ErrorView
   },
   data() {
     return {

@@ -6,7 +6,7 @@
         <div class="small text-muted">Basado en la cantidad de unidades vendidas</div>
       </div>
       <loading-view v-if="loading" />
-      <div v-else-if="error">Ha ocurrido un error</div>
+      <error-view v-else-if="error"/>
       <div v-else class="m-sm-0 mx-lg-3">
         <pie-chart :chart-data="data" :options="options"></pie-chart>
       </div>
@@ -17,13 +17,15 @@
 <script>
 import PieChart from "../charts/PieChart.js";
 import LoadingView from "@/components/LoadingView.vue";
+import ErrorView from "@/components/ErrorView.vue";
 import toMaterialStyle from "material-color-hash";
 import axios from "axios";
 
 export default {
   components: {
     PieChart,
-    LoadingView
+    LoadingView,
+    ErrorView
   },
   data() {
     return {

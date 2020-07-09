@@ -7,7 +7,7 @@
       </div>
       <div>
         <loading-view v-if="loading" />
-        <div v-else-if="error">Ha ocurrido un error</div>
+        <error-view v-else-if="error"/>
         <table v-else class="table table-striped">
           <thead class="thead-light">
             <tr>
@@ -55,11 +55,13 @@ import StarRating from "vue-star-rating";
 import axios from "axios";
 
 import LoadingView from "@/components/LoadingView.vue";
+import ErrorView from "@/components/ErrorView.vue";
 
 export default {
   components: {
     StarRating,
-    LoadingView
+    LoadingView,
+    ErrorView
   },
   data() {
     return {

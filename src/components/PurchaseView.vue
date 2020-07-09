@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-body">
           <loading-view v-if="loading" />
-          <div v-else>Ha ocurrido un error</div>
+          <error-view v-else/>
         </div>
       </div>
     </template>
@@ -119,6 +119,7 @@ import UserHelper from "@/helpers/UserHelper";
 import StarRating from "vue-star-rating";
 
 import LoadingView from "@/components/LoadingView.vue";
+import ErrorView from "@/components/ErrorView.vue";
 
 import moment from "moment";
 import axios from "axios";
@@ -127,7 +128,8 @@ export default {
   components: {
     PageTitle,
     StarRating,
-    LoadingView
+    LoadingView,
+    ErrorView
   },
   data() {
     return {
