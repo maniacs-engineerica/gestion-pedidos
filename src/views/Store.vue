@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <div>      
     <page-title message="Tienda"/>
     <router-view></router-view>     
-  <div class="row">
+    <loading-view v-if="loading" />
+      <error-view v-else-if="error"/>
+  <div v-else class="row">
         <div class="col-6 col-md-2">
             <div>
                 <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"  v-model="searchText">         
@@ -53,7 +55,6 @@
                             <option value=3> 3 estrellas </option>
                             <option value=4> 4 estrellas </option>
                         </select>
-                        
                     </div>
                 </div>
         </div>
@@ -78,13 +79,17 @@
 <script>
 import PageTitle from "@/components/PageTitle.vue";
 import ProductCard from "@/components/ProductCard.vue";
-import products from "@/data/products.js"
+import LoadingView from "@/components/LoadingView.vue";
+import ErrorView from "@/components/ErrorView.vue";
+import axios from 'axios'
 
 export default {
   name: "Home",
   components: {
     PageTitle,
-    productCard:ProductCard
+    productCard:ProductCard,
+    LoadingView,
+    ErrorView
   },        
         data() {
             return {
@@ -93,17 +98,16 @@ export default {
             productLocation : '',
             minPrice: 0,
             maxPrice: 1000,
-            productos: products,
+            productos: [],
             filterProducts: [],
             visible: 'disabled',
-        }
-         
-        },
+            error: false,
+            loading: true
+        }},
         methods: {            
             searchAllCategories (){
                 this.filterProducts = this.productos
-            }
-            ,
+            },
             searchCakes () {
                 this.filterProducts = this.productos.filter((producto) => producto.category.toLowerCase().includes("cake"))
             },
@@ -125,14 +129,24 @@ export default {
                 this.productLocation = ''
                 this.minPrice= 0
                 this.maxPrice= 1000
-             }
-             
-    },
-    computed: {
-      
+             },
+             async getProducts() {
+                 const response = await axios.get("/products");
+                return response.data;
+            },
+            async created(){
+                try {
+                    this.productos = await this.getProducts();
+                } catch (error) {
+                    this.error = true;
+                }
+            this.loading = false;
+            }
+        },
+    computed: {      
       filter () {          
-           let a = []           
-           
+           let a = []
+
                a = this.filterProducts.filter((item) => {
                    const cumpleRating =  !this.productScore || item.rating == this.productScore
                    const cumpleBusqueda = !this.searchText || item.name.toLowerCase().includes(this.searchText.toLowerCase())
@@ -146,12 +160,10 @@ export default {
             return a          
       }
     },
-    mounted: function() {
-        this.searchAllCategories()    
+    async mounted() {
+        await this.created()
+        this.searchAllCategories()
     }
-    
-    
-
 };
        
 
@@ -209,7 +221,7 @@ ul {
    display: -webkit-flex;
    display: flex;
    -webkit-flex-wrap: wrap;
-   flex-wrap: wrap;
+   flex-wrap: wrap;   
 }
  
 li {
@@ -223,13 +235,16 @@ li {
   transition: box-shadow 0.5s ease;
   display: -webkit-flex;
   display: flex;
+  text-decoration: none;
+  background: #f7f7f7;
 }
 
-li :hover {
+li:hover {
   -webkit-box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
   box-shadow: 0px 0px 7px rgba(229,102,229,1);
-    display: -webkit-flex;
+    display: -webkit-flex; 
   display: flex;
+  text-decoration: none;
   
 }
 
