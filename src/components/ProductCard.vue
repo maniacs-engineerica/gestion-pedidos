@@ -1,6 +1,6 @@
 <template>
     <div>    
-        <div class="card" style="width: 11rem; ">
+        <div class="card h-100" style="width: 11rem; ">
             <img class="card-img-top" width="100" height="200" :src="image" :alt="nombre"/>
                 <div class="card-body">
                     <h5 class="card-title">{{ nombre }}</h5>

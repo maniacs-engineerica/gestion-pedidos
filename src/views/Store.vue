@@ -50,17 +50,18 @@
                         
                         <select id="score" v-model="productScore">
                             <option value=''> Seleccionar </option> 
-                            <option value=1> 1 estrellas </option>
+                            <option value=1> 1 estrella </option>
                             <option value=2> 2 estrellas </option>
                             <option value=3> 3 estrellas </option>
                             <option value=4> 4 estrellas </option>
+                            <option value=5> 5 estrellas </option>
                         </select>
                     </div>
                 </div>
         </div>
         <div class = "col-12 col-md-10">
         <div id="resultsContaianer">            
-            <ul id="results">
+            <ul id="results" v-if="filter.length > 0">
                <li v-for="(product ,index) in filter" :key="index" @click="showProduct(product.slug)">                    
                     <productCard
                         :nombre="product.name" 
@@ -69,6 +70,7 @@
                     </productCard>
                 </li>
             </ul>
+            <div v-else>Sin resultados</div>
         </div>               
         </div>
     </div>  
