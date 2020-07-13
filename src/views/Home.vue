@@ -10,13 +10,13 @@
           </ol>
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="https://images.pexels.com/photos/6203/food-sweet-cake-candles-6203.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="d-block w-100" alt="...">
+              <img src="https://images.pexels.com/photos/140831/pexels-photo-140831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
               <img src="https://images.pexels.com/photos/1129510/pexels-photo-1129510.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-              <img src="https://images.pexels.com/photos/4640864/pexels-photo-4640864.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="d-block w-100" alt="...">
+              <img src="https://images.pexels.com/photos/1546892/pexels-photo-1546892.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="d-block w-100" alt="...">
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -43,11 +43,13 @@
             <div class="row">
               <div v-for="product in topProducts" :key="product.id" @click="showProduct(product.slug)" class="col-12 col-md-4 mt-4 mb-4">
                 <div class="card">
-                  <img class="mt-2 card-img-top" :src="product.image" :alt="product.name">
+                  <div class="container">
+                    <img class="mt-2 card-img-top" :src="product.image" :alt="product.name">
+                    <button class="button btn btn-light btn-lg" @click="showProduct(product.slug)">Ver detalle</button>
+                  </div>
                   <div class="card-body">
-                    <h5 class="card-title">{{product.name}}</h5>
+                    <h5 class="card-title"><strong>{{product.name}}</strong></h5>
                     <p class="card-text">{{product.description}}</p>
-                    <a href="#" @click.prevent="showProduct(product.slug)">Ver detalle</a>
                   </div>
                 </div>
               </div>
@@ -131,5 +133,24 @@ export default {
 
 .card {
   cursor: pointer;
+}
+
+.container {
+  position: relative;
+}
+
+.container .button { 
+  display: none;
+  position: absolute; 
+  right: 5.5em; 
+  top: 9em;
+}
+
+img:hover + .button, .button:hover {
+    display: inline-block;
+}
+
+.container img {
+  max-height: 370px;
 }
 </style>
