@@ -38,70 +38,77 @@
                 </span>
                 <hr />
                 <template v-if="purchase && isClient">
-                  <div class="row">
-                    <div class="col-sm-5">
-                      <dl class="param param-inline">
-                        <dt>Cantidad:</dt>
-                        <dd>
-                          <input
+                  <div id="category">
+                    <dl class="item-property">
+                    <dd>
+                      <p><strong>Categoría:</strong><button type="button" class="btn btn-link" @click="scrollDown">{{product.category}}</button></p>
+                    </dd>
+                  </dl>
+                  </div>                  
+                  <hr/>
+                  <div class="row" style="align-items: center">
+                    <div class="col-sm-4">
+                      <label><strong>Cantidad: </strong></label>
+                      <input 
                             type="number"
                             min="1"
-                            class="form-control form-control-sm"
+                            class="form-control form-control-sm" 
                             style="width:70px;"
                             v-model="quantity"
                           />
-                        </dd>
-                      </dl>
                     </div>
-
-                    <div class="col-sm-7">
-                      <dl class="param param-inline">
-                        <dt>Tamaño:</dt>
-                        <dd>
-                          <label class="form-check form-check-inline">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio2"
-                              value="option2"
-                            />
-                            <span class="form-check-label">Mediano</span>
-                          </label>
-                          <label class="form-check form-check-inline">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio2"
-                              value="option2"
-                            />
-                            <span class="form-check-label">Grande</span>
-                          </label>
-                        </dd>
-                      </dl>
+                    <div class="col-sm-6">
+                      <button @click="add" class="btn btn-md btn-outline-primary text-uppercase">
+                        {{
+                        item
+                        ? "Actualizar carrito"
+                        : "Agregar al carrito"
+                        }}
+                      </button>
                     </div>
                   </div>
-                  <hr />
-                  <button @click="add" class="btn btn-lg btn-outline-primary text-uppercase">
-                    {{
-                    item
-                    ? "Actualizar carrito"
-                    : "Agregar al carrito"
-                    }}
-                  </button>
                   <hr />
                   <div
                     class="alert alert-info"
                     role="alert"
                     v-if="alert"
-                  >El producto se agregó al carrito.</div>
+                  >El producto se agregó al carrito.
+                  </div>
+                  <!-- <div id="btn-seguirComprando">
+                    <button type="button" class="btn btn-outline-dark btn-lg btn-block" @click="redirectToStore()">Seguir comprando</button>
+                  </div> -->
                 </template>
               </article>
+
             </aside>
           </div>
-        </div>
+        </div>        
       </div>
+
+      <section id="similarProducts" class="mt-4">
+          <div class="container">
+            <div class="row">
+              <div class="col text-center text-uppercase">
+                <h4>Productos similares</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div v-for="product in similarProducts" :key="product.id" @click="showProduct(product.slug)" class="col-12 col-md-4 mt-4 mb-4">
+                <div class="card h-100">
+                  <div class="container">
+                    <img class="mt-2 card-img-top" :src="product.image" :alt="product.name">
+                    <button class="button btn btn-light btn-lg" @click="showProduct(product.slug)">Ver detalle</button>
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title"><strong>{{product.name}}</strong></h5>
+                    <p class="card-text">{{product.description}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>    
+        </section>
+
     </template>
   </div>
 </template>
@@ -130,19 +137,12 @@ export default {
       purchase: null,
       currentItem: null,
       currentQuantity: null,
-      alert: null
+      alert: false,
+      similarProducts: []
     };
   },
   async created() {
-    try {
-      this.product = await this.getProduct();
-      if (UserHelper.isLogged()) {
-        this.purchase = await this.getCurrentPurchase();
-      }
-    } catch (error) {
-      this.error = true;
-    }
-    this.loading = false;
+    await this.onCreated()
   },
   computed: {
     item: {
@@ -174,7 +174,25 @@ export default {
       }
     }
   },
+  watch: {
+   async $route() {
+     this.loading = true
+      await this.onCreated()
+    }
+  },
   methods: {
+    async onCreated(){
+      try {
+      this.product = await this.getProduct();
+      if (UserHelper.isLogged()) {
+        this.purchase = await this.getCurrentPurchase();
+      }
+      this.similarProducts = await this.getSimilarProducts();
+    } catch (error) {
+      this.error = true;
+    }
+    this.loading = false;
+    },
     async getProduct() {
       const response = await axios.get(`/products/${this.$route.params.slug}`);
       return response.data;
@@ -191,6 +209,10 @@ export default {
         console.log("ERROR", error);
       }
     },
+    async getSimilarProducts() {
+      const response = await axios.get("/products");
+      return response.data.filter((p)=> p.category == this.product.category && p.id != this.product.id)
+    },
     add: function() {
       if (!this.item) {
         const item = {
@@ -205,10 +227,51 @@ export default {
         this.item.quantity = this.quantity;
       }
       this.updatePurchase();
+      this.showAlert();            
+    },
+    showAlert: function (){
       this.alert = true;
+      setTimeout(() => {
+      this.alert = false; }, 3000);
+      },
+    redirectToStore: function(){
+      this.$router.push('/store');
+      },
+    scrollDown: function(){
+      document.getElementById("similarProducts").scrollIntoView({behavior: "smooth"});
+    },
+    showProduct: function(slug) {
+    this.$router.push('/products/'+ slug);
     }
-  }
+  },
+  
 };
 </script>
+
+<style scoped>
+.container {
+  max-width: 980px;
+  position: relative;
+}
+
+#similarProducts .card {
+  cursor: pointer;
+}
+
+.container .button { 
+  display: none;
+  position: absolute; 
+  right: 4em; 
+  top: 7em;
+}
+
+img:hover + .button, .button:hover {
+  display: inline-block;
+}
+
+.card .container img {
+  height: 280px;
+}
+</style>
 
 
