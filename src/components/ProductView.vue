@@ -37,14 +37,14 @@
                   <star-rating :rating="product.rating" :read-only="true" :show-rating="false"></star-rating>
                 </span>
                 <hr />
-                <template v-if="purchase && isClient">
-                  <div id="category">
+                <div id="category">
                     <dl class="item-property">
                     <dd>
                       <p><strong>Categoría:</strong><button type="button" class="btn btn-link" @click="scrollDown">{{product.category}}</button></p>
                     </dd>
                   </dl>
-                  </div>                  
+                  </div>
+                <template v-if="purchase && isClient">                                    
                   <hr/>
                   <div class="row" style="align-items: center">
                     <div class="col-sm-4">
@@ -74,9 +74,6 @@
                     v-if="alert"
                   >El producto se agregó al carrito.
                   </div>
-                  <!-- <div id="btn-seguirComprando">
-                    <button type="button" class="btn btn-outline-dark btn-lg btn-block" @click="redirectToStore()">Seguir comprando</button>
-                  </div> -->
                 </template>
               </article>
 
