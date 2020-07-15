@@ -172,7 +172,7 @@ export default {
 
    
 </script>
-<style>
+<style scoped>
 
 .select-css {
 	display: block;
