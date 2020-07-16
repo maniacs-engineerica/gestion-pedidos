@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-body">
           <loading-view v-if="loading" />
-          <error-view v-else/>
+          <error-view v-else />
         </div>
       </div>
     </template>
@@ -38,24 +38,33 @@
                 </span>
                 <hr />
                 <div id="category">
-                    <dl class="item-property">
+                  <dl class="item-property">
                     <dd>
-                      <p><strong>Categoría:</strong><button type="button" class="btn btn-link" @click="scrollDown">{{product.category}}</button></p>
+                      <p>
+                        <strong>Categoría:</strong>
+                        <button
+                          type="button"
+                          class="btn btn-link"
+                          @click="scrollDown"
+                        >{{product.category}}</button>
+                      </p>
                     </dd>
                   </dl>
-                  </div>
-                <template v-if="purchase && isClient">                                    
-                  <hr/>
+                </div>
+                <template v-if="purchase && isClient">
+                  <hr />
                   <div class="row" style="align-items: center">
                     <div class="col-sm-4">
-                      <label><strong>Cantidad: </strong></label>
-                      <input 
-                            type="number"
-                            min="1"
-                            class="form-control form-control-sm" 
-                            style="width:70px;"
-                            v-model="quantity"
-                          />
+                      <label>
+                        <strong>Cantidad:</strong>
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        class="form-control form-control-sm"
+                        style="width:70px;"
+                        v-model="quantity"
+                      />
                     </div>
                     <div class="col-sm-6">
                       <button @click="add" class="btn btn-md btn-outline-primary text-uppercase">
@@ -68,44 +77,52 @@
                     </div>
                   </div>
                   <hr />
-                  <div
-                    class="alert alert-info"
-                    role="alert"
-                    v-if="alert"
-                  >El producto se agregó al carrito.
+                  <div class="alert alert-info" role="alert" v-if="alert">
+                    El producto se agregó al carrito.
+                    <br />
+                    <a href="javascript:void(0)" @click="redirectToStore">Seguir comprando</a> o
+                    <a href="javascript:void(0)" @click="redirectToCart">confirmar pedido</a>.
                   </div>
                 </template>
               </article>
-
             </aside>
           </div>
-        </div>        
+        </div>
       </div>
 
       <section id="similarProducts" class="mt-4">
-          <div class="container">
-            <div class="row">
-              <div class="col text-center text-uppercase">
-                <h4>Productos similares</h4>
-              </div>
+        <div class="container">
+          <div class="row">
+            <div class="col text-center text-uppercase">
+              <h4>Productos similares</h4>
             </div>
-            <div class="row">
-              <div v-for="product in similarProducts" :key="product.id" @click="showProduct(product.slug)" class="col-12 col-md-4 mt-4 mb-4">
-                <div class="card h-100">
-                  <div class="container">
-                    <img class="mt-2 card-img-top" :src="product.image" :alt="product.name">
-                    <button class="button btn btn-light btn-lg" @click="showProduct(product.slug)">Ver detalle</button>
-                  </div>
-                  <div class="card-body">
-                    <h5 class="card-title"><strong>{{product.name}}</strong></h5>
-                    <p class="card-text">{{product.description}}</p>
-                  </div>
+          </div>
+          <div class="row">
+            <div
+              v-for="product in similarProducts"
+              :key="product.id"
+              @click="showProduct(product.slug)"
+              class="col-12 col-md-4 mt-4 mb-4"
+            >
+              <div class="card h-100">
+                <div class="container">
+                  <img class="mt-2 card-img-top" :src="product.image" :alt="product.name" />
+                  <button
+                    class="button btn btn-light btn-lg"
+                    @click="showProduct(product.slug)"
+                  >Ver detalle</button>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <strong>{{product.name}}</strong>
+                  </h5>
+                  <p class="card-text">{{product.description}}</p>
                 </div>
               </div>
             </div>
-          </div>    
-        </section>
-
+          </div>
+        </div>
+      </section>
     </template>
   </div>
 </template>
@@ -139,7 +156,7 @@ export default {
     };
   },
   async created() {
-    await this.onCreated()
+    await this.onCreated();
   },
   computed: {
     item: {
@@ -172,23 +189,23 @@ export default {
     }
   },
   watch: {
-   async $route() {
-     this.loading = true
-      await this.onCreated()
+    async $route() {
+      this.loading = true;
+      await this.onCreated();
     }
   },
   methods: {
-    async onCreated(){
+    async onCreated() {
       try {
-      this.product = await this.getProduct();
-      if (UserHelper.isLogged()) {
-        this.purchase = await this.getCurrentPurchase();
+        this.product = await this.getProduct();
+        if (UserHelper.isLogged()) {
+          this.purchase = await this.getCurrentPurchase();
+        }
+        this.similarProducts = await this.getSimilarProducts();
+      } catch (error) {
+        this.error = true;
       }
-      this.similarProducts = await this.getSimilarProducts();
-    } catch (error) {
-      this.error = true;
-    }
-    this.loading = false;
+      this.loading = false;
     },
     async getProduct() {
       const response = await axios.get(`/products/${this.$route.params.slug}`);
@@ -208,7 +225,9 @@ export default {
     },
     async getSimilarProducts() {
       const response = await axios.get("/products");
-      return response.data.filter((p)=> p.category == this.product.category && p.id != this.product.id)
+      return response.data.filter(
+        p => p.category == this.product.category && p.id != this.product.id
+      );
     },
     add: function() {
       if (!this.item) {
@@ -224,24 +243,23 @@ export default {
         this.item.quantity = this.quantity;
       }
       this.updatePurchase();
-      this.showAlert();            
-    },
-    showAlert: function (){
       this.alert = true;
-      setTimeout(() => {
-      this.alert = false; }, 3000);
-      },
-    redirectToStore: function(){
-      this.$router.push('/store');
-      },
-    scrollDown: function(){
-      document.getElementById("similarProducts").scrollIntoView({behavior: "smooth"});
+    },
+    redirectToStore: function() {
+      this.$router.push("/store");
+    },
+    redirectToCart: function() {
+      this.$router.push("/purchases/-1");
+    },
+    scrollDown: function() {
+      document
+        .getElementById("similarProducts")
+        .scrollIntoView({ behavior: "smooth" });
     },
     showProduct: function(slug) {
-    this.$router.push('/products/'+ slug);
+      this.$router.push("/products/" + slug);
     }
-  },
-  
+  }
 };
 </script>
 
@@ -255,14 +273,15 @@ export default {
   cursor: pointer;
 }
 
-.container .button { 
+.container .button {
   display: none;
-  position: absolute; 
-  right: 4em; 
+  position: absolute;
+  right: 4em;
   top: 7em;
 }
 
-img:hover + .button, .button:hover {
+img:hover + .button,
+.button:hover {
   display: inline-block;
 }
 

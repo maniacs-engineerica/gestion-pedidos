@@ -6,6 +6,7 @@ import Profile from "@/views/Profile.vue";
 import Purchases from "@/views/Purchases.vue";
 import Login from "@/views/Login.vue";
 import Administration from "@/views/Administration.vue";
+import ProductEdit from "@/views/ProductEdit.vue";
 
 import PurchasesList from "@/components/PurchasesList.vue";
 import PurchasesView from "@/components/PurchaseView.vue";
@@ -57,7 +58,18 @@ const routes = [
   {
     path: "/admin",
     name: "Dashboard",
+    exact: true,
     component: Administration
+  },
+  {
+    path: "/admin/products/edit/:slug",
+    name: "Product",
+    component: ProductEdit
+  },
+  {
+    path: "/admin/products/edit",
+    name: "Product",
+    component: ProductEdit
   }
 ];
 

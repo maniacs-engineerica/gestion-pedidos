@@ -25,7 +25,7 @@
               role="tab"
               aria-controls="products"
               aria-selected="false"
-            >Products</a>
+            >Productos</a>
           </li>
           <li class="nav-item">
             <a
@@ -36,7 +36,7 @@
               role="tab"
               aria-controls="clients"
               aria-selected="false"
-            >Clients</a>
+            >Clientes</a>
           </li>
         </ul>
         <div class="tab-content mt-3">

@@ -6,6 +6,7 @@
           <th scope="col">#</th>
           <th scope="col">Nombre</th>
           <th scope="col">Email</th>
+          <th scope="col">Tel&eacute;fono</th>
           <th></th>
         </tr>
       </thead>
@@ -15,6 +16,9 @@
           <td class="align-middle">{{ client.name }}</td>
           <td>
             <a v-bind:href="'mailto:' + client.email">{{ client.email }}</a>
+          </td>
+          <td>
+            <a v-bind:href="'tel:' + client.phone">{{ client.phone }}</a>
           </td>
           <td></td>
         </tr>
