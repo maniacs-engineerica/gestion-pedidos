@@ -37,7 +37,7 @@
           <div class="container">
             <div class="row">
               <div class="col text-center text-uppercase">
-                <h4 class="display-4">Productos recomendados</h4>
+                <h1><span class="badge badge-secondary">Productos recomendados</span></h1>
               </div>
             </div>
             <div class="row">
