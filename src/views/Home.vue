@@ -42,7 +42,7 @@
             </div>
             <div class="row">
               <div v-for="product in topProducts" :key="product.id" @click="showProduct(product.slug)" class="col-12 col-md-4 mt-4 mb-4">
-                <div class="card">
+                <div class="card h-100">
                   <div class="container">
                     <img class="mt-2 card-img-top" :src="product.image" :alt="product.name">
                     <button class="button btn btn-light btn-lg" @click="showProduct(product.slug)">Ver detalle</button>
