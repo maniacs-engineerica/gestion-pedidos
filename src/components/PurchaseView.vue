@@ -139,13 +139,13 @@ export default {
     };
   },
   async created() {
-    try {
-      this.purchase = await this.getPurchase();
-      document.title = this.$route.params.id == -1 ? "Mi carrito" : "Pedido #" + this.purchase.id;
-    } catch (error) {
-      this.error = true;
+    await this.onCreated();
+  },
+  watch: {
+    async $route() {
+      this.loading = true;
+      await this.onCreated();
     }
-    this.loading = false;
   },
   computed: {
     totalAmount: function() {
@@ -159,6 +159,15 @@ export default {
     }
   },
   methods: {
+    async onCreated(){
+      try {
+      this.purchase = await this.getPurchase();
+      document.title = this.$route.params.id == -1 ? "Mi carrito" : "Pedido #" + this.purchase.id;
+    } catch (error) {
+      this.error = true;
+    }
+    this.loading = false;
+    },
     async getPurchase() {
       const user = UserHelper.getLoggedUser().id;
       const response = await axios.get(
