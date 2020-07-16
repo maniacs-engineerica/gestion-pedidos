@@ -1,25 +1,22 @@
 <template>
   <div>
-    <table class="table table-striped table-hover">
+    <table class="table table-striped">
       <thead class="thead-light">
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Producto</th>
-          <th scope="col">Precio</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Email</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="product in products" :key="product.id"  @click="showProduct(product.slug)">
-          <td class="align-middle">{{ product.id }}</td>
+        <tr v-for="client in clients" :key="client.id">
+          <td class="align-middle">{{ client.id }}</td>
+          <td class="align-middle">{{ client.name }}</td>
           <td>
-            <div>
-              <a href="javascript:void(0)">{{ product.name }}</a>
-            </div>
-            <div class="small text-muted">{{ product.description }}</div>
+            <a v-bind:href="'mailto:' + client.email">{{ client.email }}</a>
           </td>
-          <td class="align-middle">${{ product.price }}</td>
-          <td class="align-middle"></td>
+          <td></td>
         </tr>
       </tbody>
     </table>
@@ -41,7 +38,7 @@ export default {
   },
   data() {
     return {
-      products: [],
+      clients: [],
       loading: true
     };
   },
@@ -49,23 +46,20 @@ export default {
     this.reload();
   },
   methods: {
-    async getProducts() {
-      const response = await axios.get("/products");
+    async getClients() {
+      const response = await axios.get("/users/clients");
       return response.data;
     },
     reload: async function() {
       this.loading = true;
       this.error = false;
-      this.purchases = [];
+      this.clients = [];
       try {
-        this.products = await this.getProducts();
+        this.clients = await this.getClients();
       } catch (error) {
         this.error = true;
       }
       this.loading = false;
-    },
-    showProduct: function(slug) {
-      this.$router.push("/products/" + slug);
     }
   }
 };
