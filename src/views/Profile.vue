@@ -23,6 +23,9 @@ export default {
       this.$router.replace("/");
     }
   },
+  created(){
+    document.title= this.name;
+  },
   components: {
     PageTitle
   }

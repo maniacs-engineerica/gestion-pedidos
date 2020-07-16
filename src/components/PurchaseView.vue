@@ -141,6 +141,7 @@ export default {
   async created() {
     try {
       this.purchase = await this.getPurchase();
+      document.title = this.$route.params.id == -1 ? "Mi carrito" : "Pedido #" + this.purchase.id;
     } catch (error) {
       this.error = true;
     }

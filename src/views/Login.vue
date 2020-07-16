@@ -79,6 +79,9 @@ export default {
       }
       this.loading = false
     }
-  }
+  },
+  created(){
+    document.title = "LogIn - Pastelería";
+    }
 };
 </script>

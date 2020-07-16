@@ -198,6 +198,7 @@ export default {
     async onCreated() {
       try {
         this.product = await this.getProduct();
+        document.title = this.product.name;
         if (UserHelper.isLogged()) {
           this.purchase = await this.getCurrentPurchase();
         }

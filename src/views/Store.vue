@@ -137,6 +137,7 @@ export default {
                 return response.data;
             },
             async created(){
+                document.title = "Tienda - Pastelería";
                 try {
                     this.productos = await this.getProducts();
                 } catch (error) {

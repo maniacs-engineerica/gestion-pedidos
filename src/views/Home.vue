@@ -94,6 +94,7 @@ export default {
     }
   },
   async created(){
+    document.title = "Home - Pastelería";
     try {
       const allProducts = await this.getProducts();
       this.topProducts = allProducts.slice(0, 3);

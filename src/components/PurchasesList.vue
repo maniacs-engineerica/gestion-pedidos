@@ -95,6 +95,7 @@ export default {
     };
   },
   async created() {
+    document.title = "Pedidos";
     this.reload();
   },
   methods: {

@@ -73,6 +73,9 @@ export default {
     Analytics,
     ProductsList,
     ClientsList
-  }
+  },
+  created(){
+    document.title = "Administración";
+  },
 };
 </script>

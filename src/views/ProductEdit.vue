@@ -62,6 +62,7 @@ export default {
       this.error = false;
       try {
         const product = await this.getProduct();
+        document.title = product.name + " - Modificar";
         this.id = product.id;
         this.name = product.name;
         this.slug = product.slug;
