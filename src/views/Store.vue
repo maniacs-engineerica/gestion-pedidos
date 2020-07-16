@@ -122,7 +122,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-9">
+      <div class="col-6 col-md-9">
         <div id="resultsContaianer">
           <ul id="results" v-if="filter.length > 0">
             <li v-for="(product ,index) in filter" :key="index" @click="showProduct(product.slug)">
