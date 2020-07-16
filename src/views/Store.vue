@@ -5,114 +5,124 @@
     <loading-view v-if="loading" />
     <error-view v-else-if="error" />
     <div v-else class="row">
-      <div class="col-6 col-md-2">
-        <div>
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Buscar"
-            aria-label="Search"
-            v-model="searchText"
-          />
-        </div>
-        <br />
-        <div name="searchButttonsConainer">
-          <button
-            class="btn btn-outline-dark btn-block"
-            id="allCategories"
-            @click="searchAllCategories"
-          >Todas las categorias</button>
-          <button
-            class="btn btn-outline-dark btn-block"
-            id="cakeCategory"
-            @click="searchCakes"
-          >Tortas</button>
-          <button
-            class="btn btn-outline-dark btn-block"
-            id="dessertCategory"
-            @click="searchDessert"
-          >Postres</button>
-          <button
-            class="btn btn-outline-dark btn-block"
-            id="candiesCategory"
-            @click="searchCandies"
-          >Masas</button>
-        </div>
-        <br />
-
-        <div id="filtersContainer">
-          <h3>
-            Filtros
-            <button
-              type="button"
-              @click="cleanFilters"
-              class="btn btn-secondary btn-lg"
-              style=" width: 70%; font-size: 15px;"
-            >Limpiar</button>
-          </h3>
-          <br />
-          <div>
-            <p>Rango de precios</p>
-
-            <div data-role="rangeslider">
-              <label for="price-min" class="badge badge-light" style="font-size: 15px">
-                Precio Mínimo:
-                <span class="badge badge-secondary" style="font-size: 13px">{{minPrice}}</span>
-              </label>
-              <br />
+      <div class="col-6 col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div>
               <input
-                type="range"
-                name="price-min"
-                id="price-min"
-                value="0"
-                min="0"
-                max="1000"
-                v-model="minPrice"
-              />
-              <br />
-              <label for="price-max" class="badge badge-light" style="font-size: 15px">
-                Precio Máximo:
-                <span class="badge badge-secondary" style="font-size: 13px">{{maxPrice}}</span>
-              </label>
-              <br />
-              <input
-                type="range"
-                name="price-max"
-                id="price-max"
-                value="0"
-                min="0"
-                max="1000"
-                v-model="maxPrice"
+                class="form-control mr-sm-2"
+                type="search"
+                placeholder="Buscar"
+                aria-label="Search"
+                v-model="searchText"
               />
             </div>
             <br />
-          </div>
-          <div>
-            <label class="badge badge-light" style="font-size: 16px;">Ubicación</label>
-            <select id="score" v-model="productLocation">
-              <option value>Seleccionar</option>
-              <option value="1">Capital Fed</option>
-              <option value="2">Barracas</option>
-              <option value="3">Avellaneda</option>
-              <option value="4">Lanus</option>
-            </select>
-          </div>
+            <div name="searchButttonsConainer">
+              <button
+                class="btn btn-outline-dark btn-block"
+                id="allCategories"
+                @click="searchAllCategories"
+              >Todas las categorias</button>
+              <button
+                class="btn btn-outline-dark btn-block"
+                id="cakeCategory"
+                @click="searchCakes"
+              >Tortas</button>
+              <button
+                class="btn btn-outline-dark btn-block"
+                id="dessertCategory"
+                @click="searchDessert"
+              >Postres</button>
+              <button
+                class="btn btn-outline-dark btn-block"
+                id="candiesCategory"
+                @click="searchCandies"
+              >Masas</button>
+            </div>
+            <br />
 
-          <div>
-            <label class="badge badge-light" style="font-size: 16px">Calificación</label>
+            <div id="filtersContainer">
+              <h3>
+                Filtros
+                <button
+                  type="button"
+                  @click="cleanFilters"
+                  class="btn btn-secondary btn-lg"
+                  style=" width: 70%; font-size: 15px;"
+                >Limpiar</button>
+              </h3>
+              <br />
+              <div>
+                <p>Rango de precios</p>
 
-            <select id="score" v-model="productScore">
-              <option value>Seleccionar</option>
-              <option value="1">1 estrella</option>
-              <option value="2">2 estrellas</option>
-              <option value="3">3 estrellas</option>
-              <option value="4">4 estrellas</option>
-              <option value="5">5 estrellas</option>
-            </select>
+                <div data-role="rangeslider">
+                  <label for="price-min" class="badge badge-light" style="font-size: 15px">
+                    Precio Mínimo:
+                    <span
+                      class="badge badge-secondary"
+                      style="font-size: 13px"
+                    >{{minPrice}}</span>
+                  </label>
+                  <br />
+                  <input
+                    type="range"
+                    name="price-min"
+                    id="price-min"
+                    value="0"
+                    min="0"
+                    max="1000"
+                    v-model="minPrice"
+                  />
+                  <br />
+                  <label for="price-max" class="badge badge-light" style="font-size: 15px">
+                    Precio Máximo:
+                    <span
+                      class="badge badge-secondary"
+                      style="font-size: 13px"
+                    >{{maxPrice}}</span>
+                  </label>
+                  <br />
+                  <input
+                    type="range"
+                    name="price-max"
+                    id="price-max"
+                    value="0"
+                    min="0"
+                    max="1000"
+                    v-model="maxPrice"
+                  />
+                </div>
+                <br />
+              </div>
+              <div>
+                <label class="badge badge-light" style="font-size: 16px;">Ubicación</label>
+                <select id="score" v-model="productLocation">
+                  <option value>Seleccionar</option>
+                  <option value="1">Capital Fed</option>
+                  <option value="2">Barracas</option>
+                  <option value="3">Avellaneda</option>
+                  <option value="4">Lanus</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="badge badge-light" style="font-size: 16px">Calificación</label>
+
+                <select id="score" v-model="productScore">
+                  <option value>Seleccionar</option>
+                  <option value="1">1 estrella</option>
+                  <option value="2">2 estrellas</option>
+                  <option value="3">3 estrellas</option>
+                  <option value="4">4 estrellas</option>
+                  <option value="5">5 estrellas</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-10">
+      <div class="col-12 col-md-9">
         <div id="resultsContaianer">
           <ul id="results" v-if="filter.length > 0">
             <li v-for="(product ,index) in filter" :key="index" @click="showProduct(product.slug)">
